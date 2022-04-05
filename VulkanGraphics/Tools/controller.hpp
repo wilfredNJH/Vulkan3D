@@ -26,6 +26,10 @@ namespace nekographics {
 
         bool firstPerson = true;//tracks first person or third person perspective 
 
+
+        glm::vec2 oldMousePos;
+        glm::vec2 newMousePos;
+
         //controls speed 
         float moveSpeed{ 3.f };
         float lookSpeed{ 3.f };
