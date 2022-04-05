@@ -89,13 +89,44 @@ namespace nekographics {
 
     void KeyboardMovementController::moveThirdPerson(float dt, NkGameObject& gameObject, NkGameObject& camera) { 
 
-        //check if wants to switch
+        /*********
+        Check if wants to switch camera mode 
+        ***********/
         if (KeyManager.isKeyTriggered('M')) {
             firstPerson = true;//set back to first person 
             return;
         }
 
+        /*********
+        Rotating the Cube Object
+        ***********/
+        glm::vec3 rotate{ 0 };
 
+        //rotate
+        if (KeyManager.isKeyPressed(VK_RIGHT)) {
+            rotate.y += 1.f;
+        }if (KeyManager.isKeyPressed(VK_LEFT)) {
+            rotate.y -= 1.f;
+        }if (KeyManager.isKeyPressed(VK_UP)) {
+            rotate.x += 1.f;
+        }if (KeyManager.isKeyPressed(VK_DOWN)) {
+            rotate.x -= 1.f;
+        }
+
+        //calculating the rotation 
+        if (glm::dot(rotate, rotate) > std::numeric_limits<float>::epsilon()) {
+            gameObject.transform.rotation += lookSpeed * dt * glm::normalize(rotate);
+        }
+
+        //gameObject.transform.rotation.x = glm::clamp(gameObject.transform.rotation.x, -1.5f, 1.5f);// limit pitch values between about +/- 85ish degrees
+        gameObject.transform.rotation.x = glm::mod(gameObject.transform.rotation.x, glm::two_pi<float>());
+        gameObject.transform.rotation.y = glm::mod(gameObject.transform.rotation.y, glm::two_pi<float>());
+
+
+
+        /*********
+        Rotating the Cube Object
+        ***********/
         glm::vec3 resultingVector = gameObject.transform.translation - camera.transform.translation;//vector to game object
 
 

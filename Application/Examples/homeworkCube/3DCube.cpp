@@ -39,7 +39,7 @@ namespace nekographics {
 			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
 			.build();
 		loadGameObjects();//loading in the game objects
-		//m_vktexture.createTextureImageSTB(TEXTURE_PATH);//for the stb
+		//m_vktexture.createTextureImageSTB("Textures/Stone Wall 01_1K_Diffuse.png");//for the stb
 		//m_vktexture.createTextureImageDDS("Textures/dds/Stone Wall 01_1K_Diffuse.dds");//for the dds 
 		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/Stone Wall 01_1K_Normal - Compress BC5.dds");//testing for the mipmaps
 		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/Stone Wall 01_1K_Diffuse.dds");//testing for the mipmaps
