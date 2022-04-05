@@ -59,7 +59,7 @@ namespace nekographics {
         std::shared_ptr<NKModel> model{};
         std::unique_ptr<PointLightComponent> pointLight = nullptr;
 
-        NkGameObject(id_t objId = 1) : id{ objId } {}
+        NkGameObject(id_t objId = 0) : id{ objId } {}
     private:
 
         id_t id;

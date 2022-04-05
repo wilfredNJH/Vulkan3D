@@ -105,11 +105,11 @@ namespace nekographics {
 
 		std::vector<glm::vec3> lightColors{
 			{1.f, 1.f, 1.f},
-			//{1.f, .1f, .1f},
-			//{.1f, .1f, 1.f},
-			//{.1f, 1.f, .1f},
-			//{1.f, 1.f, .1f},
-			//{.1f, 1.f, 1.f}
+			{1.f, .1f, .1f},
+			{.1f, .1f, 1.f},
+			{.1f, 1.f, .1f},
+			{1.f, 1.f, .1f},
+			{.1f, 1.f, 1.f}
 		};
 
 		for (int i = 0; i < lightColors.size(); i++) {
