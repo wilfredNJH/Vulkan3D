@@ -52,6 +52,7 @@ namespace nekographics {
 	}
 
 	void NKTexture::transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout, uint32_t mipCount) {
+		UNREFERENCED_PARAMETER(format);
 		VkCommandBuffer commandBuffer = m_vkDevice.beginSingleTimeCommands();
 
 		VkImageMemoryBarrier barrier{};
@@ -355,7 +356,7 @@ namespace nekographics {
 			ddsVKFormat = VK_FORMAT_BC5_SNORM_BLOCK;
 			break;
 		default:
-			VK_FORMAT_BC1_RGBA_SRGB_BLOCK;
+			ddsVKFormat = VK_FORMAT_BC1_RGBA_SRGB_BLOCK;
 		}
 
 		const auto TotalByteSize = [&]
@@ -394,7 +395,7 @@ namespace nekographics {
 		{
 			auto pMemory = reinterpret_cast<std::byte*>(data);
 			int  Offset = 0;
-			auto TopMipView = dds.GetImageData(0, 0);
+			//auto TopMipView = dds.GetImageData(0, 0);
 			for (std::uint32_t iMip = 0; iMip < dds.GetMipCount(); ++iMip)
 			{
 				auto View = dds.GetImageData(iMip, 0);

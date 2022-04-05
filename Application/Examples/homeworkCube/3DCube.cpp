@@ -214,6 +214,8 @@ namespace nekographics {
 	}
 
 	void gameApp::draw(NKCamera& camera, SimpleRenderSystem& renderer , PointLightSystem& pointLightRenderer,FrameInfo& frameInfo, VkCommandBuffer& commandBuffer) {
+		UNREFERENCED_PARAMETER(camera);
+
 		//check for begin frame 
 		m_vkRenderer.beginSwapChainRenderPass(commandBuffer);//begin renderpass
 		renderer.renderGameObjects(frameInfo);

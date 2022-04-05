@@ -4,6 +4,7 @@ namespace xprim_geom::cube
     inline
     mesh Generate( const int SubdivideX, const int SubdivideY, const int SubdivideZ, const int SubdivideW, const float3 Size ) noexcept
     {
+        UNREFERENCED_PARAMETER(SubdivideX);
         mesh Mesh;
 
         //

@@ -46,9 +46,9 @@ namespace nekographics {
         VkResult acquireNextImage(uint32_t* imageIndex);
         VkResult submitCommandBuffers(const VkCommandBuffer* buffers, uint32_t* imageIndex);
 
-        bool compareSwapFormats(const NKSwapChain& swapChain) const {
-            return swapChain.swapChainDepthFormat == swapChainDepthFormat &&
-                swapChain.swapChainImageFormat == swapChainImageFormat;
+        bool compareSwapFormats(const NKSwapChain& pswapChain) const {
+            return pswapChain.swapChainDepthFormat == swapChainDepthFormat &&
+                pswapChain.swapChainImageFormat == swapChainImageFormat;
         }
 
     private:
