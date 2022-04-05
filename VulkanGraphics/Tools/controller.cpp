@@ -163,6 +163,17 @@ namespace nekographics {
             glm::mat4 rot_mat = glm::rotate(glm::mat4(1.f), glm::radians(degreeOpp), rotationAxis);
             camera.transform.translation = glm::vec3(glm::vec4(camera.transform.translation, 1.0f) * rot_mat);
         }
+        if (KeyManager.isKeyPressed('W')) {
+            glm::vec3 rotationAxis = { -1.f,0.f,0.f };
+            glm::mat4 rot_mat = glm::rotate(glm::mat4(1.f), glm::radians(degree), rotationAxis);
+            camera.transform.translation = glm::vec3(glm::vec4(camera.transform.translation, 1.0f) * rot_mat);
+        }
+        if (KeyManager.isKeyPressed('S')) {
+            glm::vec3 rotationAxis = { -1.f,0.f,0.f };
+            glm::mat4 rot_mat = glm::rotate(glm::mat4(1.f), glm::radians(degreeOpp), rotationAxis);
+            camera.transform.translation = glm::vec3(glm::vec4(camera.transform.translation, 1.0f) * rot_mat);
+        }
+
 
         //calculating the translation
         if (glm::dot(moveDir, moveDir) > std::numeric_limits<float>::epsilon()) {
