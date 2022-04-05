@@ -34,78 +34,11 @@ int homeworkCube() {
 	//showing the window
 	application.m_window.showWindow();
 
-	//creating uniform buffer
-	std::vector<std::unique_ptr<nekographics::NKBuffer>> uboBuffers(nekographics::NKSwapChain::MAX_FRAMES_IN_FLIGHT);
-	for (int i = 0; i < uboBuffers.size(); i++) {
-		uboBuffers[i] = std::make_unique<nekographics::NKBuffer>(
-			application.m_vkDevice,
-			sizeof(nekographics::GlobalUbo),
-			1,
-			VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
-			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT);
-		uboBuffers[i]->map();
-	}
-
-	//creating 
-
-	//descriptor sets
-	auto globalSetLayout =
-		nekographics::NKDescriptorSetLayout::Builder(application.m_vkDevice)
-		.addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL_GRAPHICS)
-		.addBinding(1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_ALL_GRAPHICS)
-		.addBinding(2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_ALL_GRAPHICS)
-		.addBinding(3, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_ALL_GRAPHICS)
-		.addBinding(4, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_ALL_GRAPHICS)
-		.addBinding(5, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_ALL_GRAPHICS)
-		.build();
-
-	std::vector<VkDescriptorSet> globalDescriptorSets(nekographics::NKSwapChain::MAX_FRAMES_IN_FLIGHT);
-	for (int i = 0; i < globalDescriptorSets.size(); i++) {
-
-		//setting the image info 
-		VkDescriptorImageInfo imageInfo{};
-		imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-		imageInfo.imageView = application.m_vktexture.textureImageViewVec[0];
-		imageInfo.sampler = application.m_vktexture.textureSamplerVec[0];
-
-		VkDescriptorImageInfo imageInfo2{};
-		imageInfo2.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-		imageInfo2.imageView = application.m_vktexture.textureImageViewVec[1];
-		imageInfo2.sampler = application.m_vktexture.textureSamplerVec[1];
-
-		VkDescriptorImageInfo imageInfo3{};
-		imageInfo3.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-		imageInfo3.imageView = application.m_vktexture.textureImageViewVec[2];
-		imageInfo3.sampler = application.m_vktexture.textureSamplerVec[2];
-
-		VkDescriptorImageInfo imageInfo4{};
-		imageInfo4.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-		imageInfo4.imageView = application.m_vktexture.textureImageViewVec[3];
-		imageInfo4.sampler = application.m_vktexture.textureSamplerVec[3];
-
-		VkDescriptorImageInfo imageInfo5{};
-		imageInfo5.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-		imageInfo5.imageView = application.m_vktexture.textureImageViewVec[4];
-		imageInfo5.sampler = application.m_vktexture.textureSamplerVec[4];
-
-
-		//setting the buffer info 
-		auto bufferInfo = uboBuffers[i]->descriptorInfo();
-		nekographics::NkDescriptorWriter(*globalSetLayout, *application.globalPool)
-			.writeBuffer(0, &bufferInfo)
-			.writeImage(1, &imageInfo)
-			.writeImage(2, &imageInfo2)
-			.writeImage(3, &imageInfo3)
-			.writeImage(4, &imageInfo4)
-			.writeImage(5, &imageInfo5)
-			.build(globalDescriptorSets[i]);
-	}
-
 	/***********
 	Init Camera & Renderer 
 	************/
-	nekographics::SimpleRenderSystem simpleRenderSystem{ application.m_vkDevice, application.m_vkRenderer.getSwapChainRenderPass() , globalSetLayout->getDescriptorSetLayout()};
-	nekographics::PointLightSystem pointLightSystem{ application.m_vkDevice,application.m_vkRenderer.getSwapChainRenderPass(),globalSetLayout->getDescriptorSetLayout() };
+	nekographics::SimpleRenderSystem simpleRenderSystem{ application.m_vkDevice, application.m_vkRenderer.getSwapChainRenderPass() , application.globalSetLayout->getDescriptorSetLayout()};
+	nekographics::PointLightSystem pointLightSystem{ application.m_vkDevice,application.m_vkRenderer.getSwapChainRenderPass(),application.globalSetLayout->getDescriptorSetLayout() };
 
 	nekographics::NKCamera camera{};//creating the camera 
 
@@ -170,7 +103,7 @@ int homeworkCube() {
 					  frameTime,
 					  commandBuffer,
 					  camera,
-					  globalDescriptorSets[frameIndex],
+					  application.globalDescriptorSets[frameIndex],
 					  application.gameObjects };
 
 					// updates
@@ -180,8 +113,8 @@ int homeworkCube() {
 					ubo.cameraEyePos = { viewerObject.transform.translation ,1.f };
 
 					pointLightSystem.update(frameInfo, ubo);
-					uboBuffers[frameIndex]->writeToBuffer(&ubo);
-					uboBuffers[frameIndex]->flush();
+					application.uboBuffers[frameIndex]->writeToBuffer(&ubo);
+					application.uboBuffers[frameIndex]->flush();
 
 					application.draw(camera, simpleRenderSystem,pointLightSystem,frameInfo,commandBuffer);//draw call
 				}

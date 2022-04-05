@@ -51,6 +51,10 @@ namespace nekographics {
 		std::unique_ptr<NKDescriptorPool> globalPool{};
 		std::unique_ptr<NKDescriptorPool> imagePool{};
 		NkGameObject::Map gameObjects;//stores the map of gameobjects
+
+		std::vector<std::unique_ptr<nekographics::NKBuffer>> uboBuffers;//vector of ubo buffers
+		std::vector<VkDescriptorSet> globalDescriptorSets;//vector of descriptor sets 
+		std::unique_ptr<NKDescriptorSetLayout> globalSetLayout;//globalset layout 
 	};
 
 }
