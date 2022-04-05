@@ -28,6 +28,9 @@
 namespace nekographics {
 
 	gameApp::gameApp() {
+		/**************
+		Creating Descriptor Pool
+		**************/
 		globalPool =
 			NKDescriptorPool::Builder(m_vkDevice)
 			.setMaxSets(NKSwapChain::MAX_FRAMES_IN_FLIGHT)
@@ -38,7 +41,13 @@ namespace nekographics {
 			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
 			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
 			.build();
+
+
 		loadGameObjects();//loading in the game objects
+
+		/**************
+		Creating Textures
+		**************/
 		//m_vktexture.createTextureImageSTB("Textures/Stone Wall 01_1K_Diffuse.png");//for the stb
 		//m_vktexture.createTextureImageDDS("Textures/dds/Stone Wall 01_1K_Diffuse.dds");//for the dds 
 		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/Stone Wall 01_1K_Normal - Compress BC5.dds");//testing for the mipmaps
@@ -51,9 +60,9 @@ namespace nekographics {
 	gameApp::~gameApp() {}
 
 	void gameApp::loadGameObjects() {
-		//
-		// Create mesh
-		//
+		/**************
+		Creating Mesh
+		**************/
 		auto Mesh =  //xprim_geom::uvsphere::Generate( 30, 30, 2, 1 ); glm::vec2 UVScale{4,4};
 			//xprim_geom::capsule::Generate(30, 30, 1, 4); glm::vec2 UVScale{ 3,3 };
 			xprim_geom::cube::Generate(4, 4, 4, 4, xprim_geom::float3{ 1,1,1 }); glm::vec2 UVScale{ 1,1 };
@@ -65,9 +74,12 @@ namespace nekographics {
 		meshTest.transform.scale = { 0.5, 0.5, 0.5f };
 		gameObjects.emplace(meshTest.getId(), std::move(meshTest));
 
+		/**************
+		Creating FBX model 
+		**************/
 		/*
 		std::shared_ptr<NKModel> lveModel =
-			NKModel::createAssimpModelFromFile(m_vkDevice, "Models/BaseMesh_Anim.fbx");
+			NKModel::createAssimpModelFromFile(m_vkDevice, "Models/FBX/BaseMesh_Anim.fbx");
 		auto flatVase = NkGameObject::createGameObject();
 		flatVase.model = lveModel;
 		flatVase.transform.translation = {  0.f, 0.f, 0.f };
@@ -75,18 +87,21 @@ namespace nekographics {
 		gameObjects.emplace(flatVase.getId(), std::move(flatVase));
 		*/
 
+		/**************
+		Creating OBJ model
+		**************/
 		/*
-		std::shared_ptr<NKModel> lveModel =
-			NKModel::createModelFromFile(m_vkDevice, "models/cube.obj");
+		std::shared_ptr<NKModel> lveModelCubeObj =
+			NKModel::createModelFromFile(m_vkDevice, "Models/OBJ/cube.obj");
 		auto flatVase = NkGameObject::createGameObject();
-		flatVase.model = lveModel;
+		flatVase.model = lveModelCubeObj;
 		flatVase.transform.translation = { 0.f, 0.f, 0.f };
 		flatVase.transform.scale = { 0.5, 0.5, 0.5f };
 		gameObjects.emplace(flatVase.getId(), std::move(flatVase));
 		*/
-
+		
 		/*
-		lveModel = NKModel::createModelFromFile(m_vkDevice, "models/smooth_vase.obj");
+		lveModel = NKModel::createModelFromFile(m_vkDevice, "Models/OBJ/smooth_vase.obj");
 		auto smoothVase = NkGameObject::createGameObject();
 		smoothVase.model = lveModel;
 		smoothVase.transform.translation = { .5f, .5f, 0.f };
@@ -95,7 +110,7 @@ namespace nekographics {
 		*/
 
 		/*
-		lveModel = NKModel::createModelFromFile(m_vkDevice, "models/quad.obj");
+		lveModel = NKModel::createModelFromFile(m_vkDevice, "Models/OBJ/quad.obj");
 		auto floor = NkGameObject::createGameObject();
 		floor.model = lveModel;
 		floor.transform.translation = { 0.f, 1.f, 0.f };
