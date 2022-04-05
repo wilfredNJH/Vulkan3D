@@ -56,7 +56,6 @@ int homeworkCube() {
 	Game Loop
 	************/
 	while (!application.m_window.closeWindow()) {
-
 		/***********
 		Input Manager
 		************/
@@ -89,7 +88,7 @@ int homeworkCube() {
 				camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 100.f);
 			}
 		}
-
+		
 		//check for window update
 		if (!application.m_window.Update()) {
 			/***********

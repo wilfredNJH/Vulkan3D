@@ -86,6 +86,8 @@ void VkWindow::CreateWindowSurface(VkInstance instance, VkSurfaceKHR* surface) {
 }
 
 bool VkWindow::Update() {
+    MouseManager.updateMousePosition_Relative(0.f, 0.f);//reseting the relative position 
+
     MSG message;// Main message loop
 
     if (PeekMessage(&message, NULL, 0, 0, PM_REMOVE)) {
