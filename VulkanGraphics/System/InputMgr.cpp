@@ -103,6 +103,7 @@ LRESULT InputMgr::Inputs(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		if (y > client_dimension.bottom)
 			y = client_dimension.bottom;
 
+		MouseManager.updateMousePosition_Relative(static_cast<float>(x) - MouseManager.getMousePosition_WindowSpace().x, static_cast<float>(y) - MouseManager.getMousePosition_WindowSpace().y);//getting the relative position 
 		MouseManager.updateMousePosition_windowSpace(static_cast<float>(x), static_cast<float>(y));
 
 		//change to normal 2d axis space
@@ -199,6 +200,11 @@ glm::vec2 MouseInput::getMousePosition_BL() const
 	return mouse_position_BL;
 }
 
+glm::vec2 MouseInput::getMousePosition_Relative() const
+{
+	return mouse_position_relative;
+}
+
 
 void MouseInput::updateMousePosition_windowSpace(float x, float y)
 {
@@ -208,6 +214,11 @@ void MouseInput::updateMousePosition_windowSpace(float x, float y)
 void MouseInput::updateMousePosition_BL(float x, float y)
 {
 	mouse_position_BL = glm::vec2{ x, y };
+}
+
+void MouseInput::updateMousePosition_Relative(float x, float y)
+{
+	mouse_position_relative = glm::vec2{ x, y };
 }
 
 bool MouseInput::isButtonTriggered(MouseButton button, bool disableUntilUpdated)

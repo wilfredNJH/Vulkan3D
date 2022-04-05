@@ -77,6 +77,7 @@ class MouseInput
 {
 	glm::vec2 mouse_position_TL;
 	glm::vec2 mouse_position_BL;
+	glm::vec2 mouse_position_relative;
 
 
 
@@ -86,9 +87,11 @@ public:
 	~MouseInput() = default;
 	glm::vec2 getMousePosition_WindowSpace() const;//Client's window space (Origin: TOP LEFT)
 	glm::vec2 getMousePosition_BL() const;//Normal space Origin: BOTTOM LEFT
+	glm::vec2 getMousePosition_Relative() const;
 
 	void updateMousePosition_windowSpace(float x, float y);
 	void updateMousePosition_BL(float x, float y);
+	void updateMousePosition_Relative(float x, float y);
 
 	bool isButtonTriggered(MouseButton button, bool disableUntilUpdated = false);
 	bool isButtonPressed(MouseButton button, bool disableUntilUpdated = false);

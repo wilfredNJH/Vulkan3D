@@ -150,7 +150,9 @@ namespace nekographics {
             moveDir -= forwardDir, moveSpeed = 500.f;
         }
 
-        //rotation
+        /*********
+        Rotating via axis 
+        ***********/
         float degree = 0.2f;
         if (KeyManager.isKeyPressed('D')) {
             glm::vec3 rotationAxis = { 0.f,-1.f,0.f };
@@ -175,7 +177,28 @@ namespace nekographics {
         }
 
 
-        //calculating the translation
+        /*********
+        Rotating via mouse 
+        ***********/
+        if (MouseManager.isButtonPressed(MouseButton::RIGHT_BUTTON)) {
+            std::cout << MouseManager.getMousePosition_Relative().x << std::endl;
+            float mouseDegree = 0.01f * MouseManager.getMousePosition_Relative().x;
+            glm::vec3 rotationAxis = { 0.f,-1.f,0.f };
+            glm::mat4 rot_mat = glm::rotate(glm::mat4(1.f), glm::radians(mouseDegree), rotationAxis);
+            camera.transform.translation = glm::vec3(glm::vec4(camera.transform.translation, 1.0f) * rot_mat);
+
+
+            std::cout << MouseManager.getMousePosition_Relative().y << std::endl;
+            float mouseDegreeY = 0.01f * MouseManager.getMousePosition_Relative().y;
+            glm::vec3 rotationAxisY = { -1.f,0.f,0.f };
+            glm::mat4 rot_matY = glm::rotate(glm::mat4(1.f), glm::radians(mouseDegreeY), rotationAxisY);
+            camera.transform.translation = glm::vec3(glm::vec4(camera.transform.translation, 1.0f) * rot_matY);
+        }
+
+
+        /*********
+        Recalculating translation 
+        ***********/
         if (glm::dot(moveDir, moveDir) > std::numeric_limits<float>::epsilon()) {
             camera.transform.translation += moveSpeed * dt * glm::normalize(moveDir);
         }
