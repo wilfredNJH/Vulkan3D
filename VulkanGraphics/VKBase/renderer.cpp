@@ -137,7 +137,7 @@ namespace nekographics {
 
         //what we want the framebuffer to be cleared to, index 0 is the color attachment, index 1 is the depth attachment 
         std::array<VkClearValue, 2> clearValues{};
-        clearValues[0].color = { 0.01f, 0.01f, 0.01f, 1.0f };//the color to clear 
+        clearValues[0].color = { 0.1f, 0.1f, 0.1f, 1.0f };//the color to clear 
         clearValues[1].depthStencil = { 1.0f, 0 };
         renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
         renderPassInfo.pClearValues = clearValues.data();
