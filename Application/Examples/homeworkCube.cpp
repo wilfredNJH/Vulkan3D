@@ -42,12 +42,13 @@ int homeworkCube() {
 
 	nekographics::NKCamera camera{};//creating the camera 
 
-	glm::vec3 cameraStartingPosition = { 0.f,0.f,-5.f };
+	glm::vec3 cameraStartingPosition = { 0.f,0.f,5.f };
 	camera.setViewTarget(cameraStartingPosition, glm::vec3(0.f, 0.f, 0.f));
 
 	//getting the viewer object 
 	auto viewerObject = nekographics::NkGameObject::createGameObject();
 	viewerObject.transform.translation = cameraStartingPosition;
+	viewerObject.transform.rotation = { 0.f,3.14f,0.f };//setting the starting rotation of the camera to face obj 
 	nekographics::KeyboardMovementController cameraController{};
 
 	auto currentTime = std::chrono::high_resolution_clock::now();//setting the current time 

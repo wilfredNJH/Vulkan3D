@@ -24,7 +24,7 @@ namespace nekographics {
         void moveInPlaneXZ(VkWindow* window, float dt, NkGameObject& gameObject);//moving the plane xz 
         void moveThirdPerson(float dt, NkGameObject& gameObject, NkGameObject& camera);//moving in third person perspective 
 
-        bool firstPerson = true;//tracks first person or third person perspective 
+        bool firstPerson = false;//tracks first person or third person perspective 
 
         //controls speed 
         float moveSpeed{ 3.f };
