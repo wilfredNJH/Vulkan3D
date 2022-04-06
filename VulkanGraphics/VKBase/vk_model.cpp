@@ -386,7 +386,19 @@ namespace nekographics {
 
     void NKModel::AssimpBuilder::loadAssimpModel(const std::string& filepath) {
         Assimp::Importer importer;
-        const aiScene* scene = importer.ReadFile(filepath.c_str(), aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_PreTransformVertices);
+        const aiScene* scene = importer.ReadFile(filepath.c_str(), 
+            aiProcess_Triangulate                // Make sure we get triangles rather than nvert polygons
+            | aiProcess_LimitBoneWeights           // 4 weights for skin model max
+            | aiProcess_GenUVCoords                // Convert any type of mapping to uv mapping
+            | aiProcess_TransformUVCoords          // preprocess UV transformations (scaling, translation ...)
+            | aiProcess_FindInstances              // search for instanced meshes and remove them by references to one master
+            | aiProcess_CalcTangentSpace           // calculate tangents and bitangents if possible
+            | aiProcess_JoinIdenticalVertices      // join identical vertices/ optimize indexing
+            | aiProcess_RemoveRedundantMaterials   // remove redundant materials
+            | aiProcess_FindInvalidData            // detect invalid model data, such as invalid normal vectors
+            | aiProcess_PreTransformVertices       // pre-transform all vertices
+            | aiProcess_FlipUVs                    // flip the V to match the Vulkans way of doing UVs
+        );
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
             std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
             return;
