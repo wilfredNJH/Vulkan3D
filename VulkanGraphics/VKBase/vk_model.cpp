@@ -328,6 +328,7 @@ namespace nekographics {
             vector.z = mesh->mVertices[i].z;
             vertex.position = vector;
 
+            //setting texture coords
             if (mesh->HasTextureCoords(i)) {
                 glm::vec2 vec;
                 vec.x = mesh->mTextureCoords[0][i].x;
@@ -338,6 +339,19 @@ namespace nekographics {
                 vertex.uv = glm::vec2(0.0f, 0.0f);
             }
 
+            //setting tangent & bitangent 
+            if (mesh->HasTangentsAndBitangents()) {
+                //setting tangent 
+                vertex.tangent.x = mesh->mTangents->x;
+                vertex.tangent.y = mesh->mTangents->y;
+                vertex.tangent.z = mesh->mTangents->z;
+                //setting bitangent
+                vertex.bitangent.x = mesh->mBitangents->x;
+                vertex.bitangent.y = mesh->mBitangents->y;
+                vertex.bitangent.z = mesh->mBitangents->z;
+            }
+
+            //setting normals 
             if (mesh->HasNormals()) {
                 glm::vec3 norm;
                 norm.x = mesh->mNormals[i].x;

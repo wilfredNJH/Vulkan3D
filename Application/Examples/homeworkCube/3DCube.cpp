@@ -50,11 +50,17 @@ namespace nekographics {
 		**************/
 		//m_vktexture.createTextureImageSTB("Textures/Stone Wall 01_1K_Diffuse.png");//for the stb
 		//m_vktexture.createTextureImageDDS("Textures/dds/Stone Wall 01_1K_Diffuse.dds");//for the dds 
-		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/Stone Wall 01_1K_Normal - Compress BC5.dds");		//creating DDS image texture for : Normal Map
-		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/Stone Wall 01_1K_Diffuse.dds");						//creating DDS image texture for : Diffuse 
-		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/Stone Wall 01_1K_Ambient Occlusion.dds");			//creating DDS image texture for : Ambient Occlusion
+		//m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/Stone Wall 01_1K_Normal - Compress BC5.dds");		//creating DDS image texture for : Normal Map
+		//m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/Stone Wall 01_1K_Diffuse.dds");						//creating DDS image texture for : Diffuse 
+		//m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/Stone Wall 01_1K_Ambient Occlusion.dds");			//creating DDS image texture for : Ambient Occlusion
+		//m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/Stone Wall 01_1K_Glossiness.dds");					//creating DDS image texture for : Glossiness
+		//m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/Stone Wall 01_1K_Roughness.dds");					//creating DDS image texture for : Roughness
+
+		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Normal_OpenGL.dds");		//creating DDS image texture for : Normal Map
+		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Base_Color.dds");						//creating DDS image texture for : Diffuse 
+		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Mixed_AO.dds");			//creating DDS image texture for : Ambient Occlusion
 		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/Stone Wall 01_1K_Glossiness.dds");					//creating DDS image texture for : Glossiness
-		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/Stone Wall 01_1K_Roughness.dds");					//creating DDS image texture for : Roughness
+		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Roughness.dds");					//creating DDS image texture for : Roughness
 
 
 		/**************
@@ -137,6 +143,7 @@ namespace nekographics {
 		/**************
 		Creating Mesh
 		**************/
+		/*
 		auto Mesh =  //xprim_geom::uvsphere::Generate( 30, 30, 2, 1 ); glm::vec2 UVScale{4,4};
 			//xprim_geom::capsule::Generate(30, 30, 1, 4); glm::vec2 UVScale{ 3,3 };
 			xprim_geom::cube::Generate(4, 4, 4, 4, xprim_geom::float3{ 1,1,1 }); glm::vec2 UVScale{ 1,1 };
@@ -147,19 +154,20 @@ namespace nekographics {
 		meshTest.transform.translation = { 0.f, 0.f, 0.f };
 		meshTest.transform.scale = { 0.5, 0.5, 0.5f };
 		gameObjects.emplace(meshTest.getId(), std::move(meshTest));
+		*/
 
 		/**************
 		Creating FBX model 
 		**************/
-		/*
+		
 		std::shared_ptr<NKModel> lveModel =
-			NKModel::createAssimpModelFromFile(m_vkDevice, "Models/FBX/BaseMesh_Anim.fbx");
-		auto flatVase = NkGameObject::createGameObject();
-		flatVase.model = lveModel;
-		flatVase.transform.translation = {  0.f, 0.f, 0.f };
-		flatVase.transform.scale = { 0.1, 0.1, 0.1f };
-		gameObjects.emplace(flatVase.getId(), std::move(flatVase));
-		*/
+			NKModel::createAssimpModelFromFile(m_vkDevice, "Models/FBX/Skull_textured.fbx");
+		auto skull = NkGameObject::createGameObject();
+		skull.model = lveModel;
+		skull.transform.translation = {  0.f, 0.f, 0.f };
+		skull.transform.scale = { 0.1, 0.1, 0.1f };
+		gameObjects.emplace(skull.getId(), std::move(skull));
+		
 
 		/**************
 		Creating OBJ model

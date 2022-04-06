@@ -73,11 +73,20 @@ namespace nekographics {
         pipelineConfig.renderPass = renderPass;//setting the render pass, render pass describes the structure & format of our framebuffer object & their attachments
         pipelineConfig.pipelineLayout = pipelineLayout;
 
-        //making the pipeline base off the shader file 
+        /*
+        //making the pipeline base off the shader file for the 3d cube 
         m_systemPipeline = std::make_unique<NKPipeline>(
             m_systemDevice,
             "Shaders/simple_shader.vert.spv",
             "Shaders/simple_shader.frag.spv",
+            pipelineConfig);
+        */
+
+        //making the pipeline base off the shader file for the skull 
+        m_systemPipeline = std::make_unique<NKPipeline>(
+            m_systemDevice,
+            "Shaders/simple_shaderSkull.vert.spv",
+            "Shaders/simple_shaderSkull.frag.spv",
             pipelineConfig);
     }
 
