@@ -124,13 +124,22 @@ namespace nekographics {
 		Creating FBX model 
 		**************/
 		
-		std::shared_ptr<NKModel> lveModel =
+		std::shared_ptr<NKModel> skullModel =
 			NKModel::createAssimpModelFromFile(m_vkDevice, "Models/FBX/Skull_textured.fbx");
 		auto skull = NkGameObject::createGameObject();
-		skull.model = lveModel;
+		skull.model = skullModel;
 		skull.transform.translation = {  0.f, 0.f, 0.f };
 		skull.transform.scale = { 0.01, 0.01, 0.01f };
 		gameObjects.emplace(skull.getId(), std::move(skull));
+
+		//std::shared_ptr<NKModel> secondModel =
+		//	NKModel::createAssimpModelFromFile(m_vkDevice, "Models/FBX/F-15E Strike Eagle Aircraft 3D Model.fbx");
+		//auto secondMesh = NkGameObject::createGameObject();
+		//secondMesh.model = secondModel;
+		//secondMesh.transform.translation = { 0.f, 0.f, 0.f };
+		//secondMesh.transform.scale = { 0.01f, 0.01f, 0.01f };
+		////skull.transform.scale = { 5.f, 5.f, 5.f };
+		//gameObjects.emplace(secondMesh.getId(), std::move(secondMesh));
 
 		/**************
 		Creating Mesh
