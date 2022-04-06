@@ -142,22 +142,6 @@ namespace nekographics {
 
 	void gameApp::loadGameObjects() {
 		/**************
-		Creating Mesh
-		**************/
-		/*
-		auto Mesh =  //xprim_geom::uvsphere::Generate( 30, 30, 2, 1 ); glm::vec2 UVScale{4,4};
-			//xprim_geom::capsule::Generate(30, 30, 1, 4); glm::vec2 UVScale{ 3,3 };
-			xprim_geom::cube::Generate(4, 4, 4, 4, xprim_geom::float3{ 1,1,1 }); glm::vec2 UVScale{ 1,1 };
-		std::shared_ptr<NKModel> lveModel =
-			NKModel::processMesh(m_vkDevice, Mesh);
-		auto meshTest = NkGameObject::createGameObject();
-		meshTest.model = lveModel;
-		meshTest.transform.translation = { 0.f, 0.f, 0.f };
-		meshTest.transform.scale = { 0.5, 0.5, 0.5f };
-		gameObjects.emplace(meshTest.getId(), std::move(meshTest));
-		*/
-
-		/**************
 		Creating FBX model 
 		**************/
 		
@@ -168,6 +152,23 @@ namespace nekographics {
 		skull.transform.translation = {  0.f, 0.f, 0.f };
 		skull.transform.scale = { 0.01, 0.01, 0.01f };
 		gameObjects.emplace(skull.getId(), std::move(skull));
+
+		/**************
+		Creating Mesh
+		**************/
+		
+		auto Mesh =  //xprim_geom::uvsphere::Generate( 30, 30, 2, 1 ); glm::vec2 UVScale{4,4};
+			xprim_geom::capsule::Generate(30, 30, 1, 4); glm::vec2 UVScale{ 3,3 };
+			//xprim_geom::cube::Generate(4, 4, 4, 4, xprim_geom::float3{ 1,1,1 }); glm::vec2 UVScale{ 1,1 };
+		std::shared_ptr<NKModel> customModel =
+			NKModel::processMesh(m_vkDevice, Mesh);
+		auto customMesh = NkGameObject::createGameObject();
+		customMesh.model = customModel;
+		customMesh.transform.translation = { -3.f, 0.f, 0.f };
+		customMesh.transform.scale = { 0.5, 0.5, 0.5f };
+		gameObjects.emplace(customMesh.getId(), std::move(customMesh));
+		
+
 		
 
 		/**************
