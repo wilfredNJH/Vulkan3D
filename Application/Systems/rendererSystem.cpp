@@ -86,7 +86,7 @@ namespace nekographics {
         m_systemPipeline = std::make_unique<NKPipeline>(
             m_systemDevice,
             "Shaders/simple_shaderSkull.vert.spv",
-            "Shaders/simple_shaderSkull.frag.spv",
+            "Shaders/simple_shaderOriginalSkull.frag.spv",
             pipelineConfig);
     }
 

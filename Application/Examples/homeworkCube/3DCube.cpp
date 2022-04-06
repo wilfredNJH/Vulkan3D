@@ -165,7 +165,7 @@ namespace nekographics {
 		auto skull = NkGameObject::createGameObject();
 		skull.model = lveModel;
 		skull.transform.translation = {  0.f, 0.f, 0.f };
-		skull.transform.scale = { 0.1, 0.1, 0.1f };
+		skull.transform.scale = { 0.01, 0.01, 0.01f };
 		gameObjects.emplace(skull.getId(), std::move(skull));
 		
 
