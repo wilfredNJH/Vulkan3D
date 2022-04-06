@@ -139,7 +139,7 @@ namespace nekographics {
         if (MouseManager.getMouseScroll() > 0) {
             const float clampDistance = 0.3f;
             //clamp if too near to the box 
-            if (glm::distance(gameObject.transform.translation, camera.transform.translation) <= 1.f) {
+            if (glm::distance(gameObject.transform.translation, camera.transform.translation) <= 3.f) {
                 moveDir = { 0.f,0.f,0.f };
             }
             else {

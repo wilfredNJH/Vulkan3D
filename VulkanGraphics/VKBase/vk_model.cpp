@@ -325,7 +325,7 @@ namespace nekographics {
             Vertex vertex;
             glm::vec3 vector;
             vector.x = mesh->mVertices[i].x;
-            vector.y = mesh->mVertices[i].y;
+            vector.y = -mesh->mVertices[i].y;
             vector.z = mesh->mVertices[i].z;
             vertex.position = vector;
 

@@ -42,7 +42,7 @@ int homeworkCube() {
 
 	nekographics::NKCamera camera{};//creating the camera 
 
-	glm::vec3 cameraStartingPosition = { 0.f,0.f,-2.f };
+	glm::vec3 cameraStartingPosition = { 0.f,0.f,-5.f };
 	camera.setViewTarget(cameraStartingPosition, glm::vec3(0.f, 0.f, 0.f));
 
 	//getting the viewer object 
