@@ -318,6 +318,7 @@ namespace nekographics {
 
     NKModel::Mesh  NKModel::AssimpBuilder::processMesh(aiMesh* mesh, const aiScene* scene) {
         UNREFERENCED_PARAMETER(scene);
+        std::unordered_map<Vertex, uint32_t> uniqueVertices{};//setting a map of unqiue vertices 
         std::vector<Vertex> vertices;
         std::vector<unsigned int> indices;
         for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
@@ -342,13 +343,13 @@ namespace nekographics {
             //setting tangent & bitangent 
             if (mesh->HasTangentsAndBitangents()) {
                 //setting tangent 
-                vertex.tangent.x = mesh->mTangents->x;
-                vertex.tangent.y = mesh->mTangents->y;
-                vertex.tangent.z = mesh->mTangents->z;
+                vertex.tangent.x = mesh->mTangents[i].x;
+                vertex.tangent.y = mesh->mTangents[i].y;
+                vertex.tangent.z = mesh->mTangents[i].z;
                 //setting bitangent
-                vertex.bitangent.x = mesh->mBitangents->x;
-                vertex.bitangent.y = mesh->mBitangents->y;
-                vertex.bitangent.z = mesh->mBitangents->z;
+                vertex.bitangent.x = mesh->mBitangents[i].x;
+                vertex.bitangent.y = mesh->mBitangents[i].y;
+                vertex.bitangent.z = mesh->mBitangents[i].z;
             }
 
             //setting normals 
