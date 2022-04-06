@@ -60,7 +60,7 @@ void main() {
   // Load Textures
   //
   const vec3  Albedo        = texture(SamplerDiffuseMap, fragTexCoord).rgb;
-  const float Shininess     = 80;//mix( 1, 100, 1 - texture( SamplerRoughnessMap, fragTexCoord).r );
+  const float Shininess     = mix( 1, 100, 1 - texture( SamplerRoughnessMap, fragTexCoord).r ); //80 preset 
   const vec3  Glossiveness  = texture(SamplerGlossivessMap, fragTexCoord).rgb;
   const vec3  SpecularColor = vec3(1);
   const vec3  SamplerAOColor = texture(SamplerAOMap, fragTexCoord).rgb;
