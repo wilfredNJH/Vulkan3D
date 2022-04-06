@@ -57,8 +57,8 @@ namespace nekographics {
 		//m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/Stone Wall 01_1K_Roughness.dds");					//creating DDS image texture for : Roughness
 
 		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Normal_OpenGL.dds");		//creating DDS image texture for : Normal Map
-		//m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Base_Color.dds");						//creating DDS image texture for : Diffuse 
-		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Base_ColorCooler.dds");						//creating DDS image texture for : Diffuse 
+		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Base_Color.dds");						//creating DDS image texture for : Diffuse 
+		//m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Base_ColorCooler.dds");						//creating DDS image texture for : Diffuse 
 		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Mixed_AO.dds");			//creating DDS image texture for : Ambient Occlusion
 		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/Stone Wall 01_1K_Glossiness.dds");					//creating DDS image texture for : Glossiness
 		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Roughness.dds");					//creating DDS image texture for : Roughness
@@ -79,62 +79,41 @@ namespace nekographics {
 		}
 
 		/**************
-		Creating Descriptor Sets Layout 
+		Creating Descriptor Sets Layout
 		**************/
-		globalSetLayout =
-			nekographics::NKDescriptorSetLayout::Builder(m_vkDevice)
-			.addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL_GRAPHICS)
-			.addBinding(1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_ALL_GRAPHICS)
-			.addBinding(2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_ALL_GRAPHICS)
-			.addBinding(3, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_ALL_GRAPHICS)
-			.addBinding(4, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_ALL_GRAPHICS)
-			.addBinding(5, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_ALL_GRAPHICS)
-			.build();
-
+		NKDescriptorSetLayout::Builder tmpBuilder = NKDescriptorSetLayout::Builder(m_vkDevice);//temporary builder 
+		tmpBuilder.addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL_GRAPHICS);//for the UBO 
+		//adding in the textures to the descriptor sets 
+		for (int i = 1; i < m_vktexture.textureImageVec.size() + 1; ++i) {
+			tmpBuilder.addBinding(i, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_ALL_GRAPHICS);
+		}
+		globalSetLayout = tmpBuilder.build();//building the set layout 
 
 		/**************
-		Creating Descriptor Sets
+		Creating Descriptor Setss
 		**************/
 		globalDescriptorSets.resize(nekographics::NKSwapChain::MAX_FRAMES_IN_FLIGHT);
 		for (int i = 0; i < globalDescriptorSets.size(); i++) {
 
-			//setting the image info 
-			VkDescriptorImageInfo imageInfo{};
-			imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-			imageInfo.imageView = m_vktexture.textureImageViewVec[0];
-			imageInfo.sampler = m_vktexture.textureSamplerVec[0];
-
-			VkDescriptorImageInfo imageInfo2{};
-			imageInfo2.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-			imageInfo2.imageView = m_vktexture.textureImageViewVec[1];
-			imageInfo2.sampler = m_vktexture.textureSamplerVec[1];
-
-			VkDescriptorImageInfo imageInfo3{};
-			imageInfo3.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-			imageInfo3.imageView = m_vktexture.textureImageViewVec[2];
-			imageInfo3.sampler = m_vktexture.textureSamplerVec[2];
-
-			VkDescriptorImageInfo imageInfo4{};
-			imageInfo4.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-			imageInfo4.imageView = m_vktexture.textureImageViewVec[3];
-			imageInfo4.sampler = m_vktexture.textureSamplerVec[3];
-
-			VkDescriptorImageInfo imageInfo5{};
-			imageInfo5.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-			imageInfo5.imageView = m_vktexture.textureImageViewVec[4];
-			imageInfo5.sampler = m_vktexture.textureSamplerVec[4];
-
+			std::vector<VkDescriptorImageInfo> imageInfoVec;
+			for (int j = 0; j < m_vktexture.textureImageViewVec.size(); ++j) {
+				//setting the image info 
+				VkDescriptorImageInfo imageInfo{};
+				imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+				imageInfo.imageView = m_vktexture.textureImageViewVec[j];
+				imageInfo.sampler = m_vktexture.textureSamplerVec[j];
+				imageInfoVec.emplace_back(imageInfo);
+			}
 
 			//setting the buffer info 
 			auto bufferInfo = uboBuffers[i]->descriptorInfo();
-			nekographics::NkDescriptorWriter(*globalSetLayout, *globalPool)
-				.writeBuffer(0, &bufferInfo)
-				.writeImage(1, &imageInfo)
-				.writeImage(2, &imageInfo2)
-				.writeImage(3, &imageInfo3)
-				.writeImage(4, &imageInfo4)
-				.writeImage(5, &imageInfo5)
-				.build(globalDescriptorSets[i]);
+			nekographics::NkDescriptorWriter tmpWriter = nekographics::NkDescriptorWriter(*globalSetLayout, *globalPool);//creating the temporary writer 
+			tmpWriter.writeBuffer(0, &bufferInfo);//writing buffer into the writer 
+			//adding write image into the writer 
+			for (int k = 1, m = 0; k < m_vktexture.textureImageVec.size() + 1; ++k, ++m) {
+				tmpWriter.writeImage(k, &imageInfoVec[m]);
+			}
+			tmpWriter.build(globalDescriptorSets[i]);//building the descriptor sets 
 		}
 	}
 
