@@ -57,7 +57,8 @@ namespace nekographics {
 		//m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/Stone Wall 01_1K_Roughness.dds");					//creating DDS image texture for : Roughness
 
 		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Normal_OpenGL.dds");		//creating DDS image texture for : Normal Map
-		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Base_Color.dds");						//creating DDS image texture for : Diffuse 
+		//m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Base_Color.dds");						//creating DDS image texture for : Diffuse 
+		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Base_ColorCooler.dds");						//creating DDS image texture for : Diffuse 
 		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Mixed_AO.dds");			//creating DDS image texture for : Ambient Occlusion
 		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/Stone Wall 01_1K_Glossiness.dds");					//creating DDS image texture for : Glossiness
 		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Roughness.dds");					//creating DDS image texture for : Roughness
