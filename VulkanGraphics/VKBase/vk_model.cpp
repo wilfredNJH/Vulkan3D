@@ -328,7 +328,7 @@ namespace nekographics {
 
             Vertextmp.position = glm::vec3
             (static_cast<float>(mesh->mVertices[i].x)
-                , static_cast<float>(mesh->mVertices[i].y)
+                , static_cast<float>(-mesh->mVertices[i].y)
                 , static_cast<float>(mesh->mVertices[i].z)
             );
 
@@ -349,6 +349,27 @@ namespace nekographics {
                     , static_cast<float>(mesh->mColors[0][i].a)
                 );
             }
+
+            if (mesh->HasNormals()) {
+                Vertextmp.normal = glm::vec3
+                (static_cast<float>(mesh->mNormals[i].x)
+                    , static_cast<float>(mesh->mNormals[i].y)
+                    , static_cast<float>(mesh->mNormals[i].z)
+                );
+            }
+
+            //setting tangent & bitangent 
+            if (mesh->HasTangentsAndBitangents()) {
+                //setting tangent 
+                Vertextmp.tangent.x = mesh->mTangents[i].x;
+                Vertextmp.tangent.y = mesh->mTangents[i].y;
+                Vertextmp.tangent.z = mesh->mTangents[i].z;
+                //setting bitangent
+                Vertextmp.bitangent.x = mesh->mBitangents[i].x;
+                Vertextmp.bitangent.y = mesh->mBitangents[i].y;
+                Vertextmp.bitangent.z = mesh->mBitangents[i].z;
+            }
+
 
             Vertices.push_back(Vertextmp);
         }

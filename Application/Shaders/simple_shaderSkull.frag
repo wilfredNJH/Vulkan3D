@@ -90,6 +90,7 @@ void main() {
 
     // Add the contribution of this light
     TotalLight.rgb += SpecularI.rrr * light.color.xyz * SamplerAOColor;
+    //TotalLight.rgb += SpecularI.rrr * light.color.xyz;
   }
 
 	// Convert to gamma
