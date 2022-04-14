@@ -50,6 +50,8 @@ void main() {
 	// Transform the normal to from tangent space to world space
 	Normal = normalize(outT2W * Normal);
 
+  Normal.y = -Normal.y;
+
 
 	//
 	// Different techniques to do Lighting
@@ -60,7 +62,7 @@ void main() {
   // Load Textures
   //
   const vec3  Albedo        = texture(SamplerDiffuseMap, fragTexCoord).rgb;
-  const float Shininess     = 80;//mix( 1, 100, 1 - texture( SamplerRoughnessMap, fragTexCoord).r );
+  const float Shininess     = mix( 1, 100, 1 - texture( SamplerRoughnessMap, fragTexCoord).r ); //80 preset 
   const vec3  Glossiveness  = texture(SamplerGlossivessMap, fragTexCoord).rgb;
   const vec3  SpecularColor = vec3(1);
   const vec3  SamplerAOColor = texture(SamplerAOMap, fragTexCoord).rgb;
@@ -74,7 +76,7 @@ void main() {
     PointLight light = ubo.pointLights[i];
     const vec3  directionToLight  = light.position.xyz - fragPosWorld;
     const vec3  directionToLightN = normalize(directionToLight);
-    const float attenuation       = min( 1.0f, 5.0 / pow( dot(directionToLight, directionToLight), 2 ) ); // distance squared
+    const float attenuation       = 1.0 / dot(directionToLight, directionToLight); // distance squared
     const float cosAngIncidence   = max(dot(Normal, directionToLightN), 0);
     const vec3  intensity         = light.color.xyz * light.color.w * attenuation;
 
@@ -91,7 +93,7 @@ void main() {
     //TotalLight.rgb  += diffuseLight.rgb * SamplerAOColor;
 
     // Add the contribution of this light
-    TotalLight.rgb += SpecularI.rrr * Glossiveness * intensity.xyz;
+    TotalLight.rgb += SpecularI.rrr * light.color.xyz;
   }
 
 	// Convert to gamma
