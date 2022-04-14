@@ -69,19 +69,18 @@ void main() {
   //
 	// Different techniques to do Lighting
 	//
-  vec3 TotalLight     = ubo.ambientLightColor.xyz * ubo.ambientLightColor.w;
+  vec3 TotalLight     = ubo.ambientLightColor.xyz * ubo.ambientLightColor.w * SamplerAOColor;
   for (int i = 0; i < ubo.numLights; i++) 
   {
     PointLight light = ubo.pointLights[i];
     const vec3  directionToLight  = light.position.xyz - fragPosWorld;
     const vec3  directionToLightN = normalize(directionToLight);
-    const float attenuation       = 1.0;//1.0 / dot(directionToLight, directionToLight); // distance squared
+    const float attenuation       = min( 1.0, 3.0 / dot(directionToLight, directionToLight) ); // distance squared
     const float cosAngIncidence   = max(dot(Normal, directionToLightN), 0);
-    const vec3  intensity         = light.color.xyz * light.color.w * attenuation;
+    const vec3  Lightintensity    = light.color.xyz * light.color.w * attenuation;
 
-    TotalLight += intensity * cosAngIncidence;
-    TotalLight *= Albedo.rgb;
-
+    TotalLight += Lightintensity * cosAngIncidence;
+    
     // Note This is the true Eye to Texel direction 
     const vec3  EyeDirection      = normalize( fragPosWorld - worldEyeSpacePos.xyz );
 
@@ -89,9 +88,16 @@ void main() {
     const float  SpecularI  = pow( max( 0, dot(Normal, normalize( directionToLightN - EyeDirection ))), Shininess );
 
     // Add the contribution of this light
-    TotalLight.rgb += SpecularI.rrr * light.color.xyz * SamplerAOColor;
-    //TotalLight.rgb += SpecularI.rrr * light.color.xyz;
+    TotalLight.rgb += SpecularI.rrr * Lightintensity / Albedo.rgb ;
   }
+
+  TotalLight *= Albedo.rgb;
+
+  // FinalColor = (L1*DiffuseI*Albedo + L1*SpecularI*SpecularColor) + (L2*DiffuseI*Albedo + L2*SpecularI*SpecularColor) + Ambient*Albedo
+  // FinalColor = (L1*DiffuseI*Albedo + L1*SpecularI) + (L2*DiffuseI*Albedo + L2*SpecularI) + Ambient*Albedo
+
+  
+
 
 	// Convert to gamma
 	const float Gamma = worldEyeSpacePos.w;
