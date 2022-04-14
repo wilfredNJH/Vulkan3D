@@ -12,7 +12,6 @@ layout(location = 1) out vec3 fragPosWorld;
 layout(location = 2) out vec3 fragNormalWorld;
 layout(location = 3) out vec2 fragTexCoord;
 layout(location = 4) out mat3 outT2W;
-//layout(location = 5) out mat3 outTangentLightDir;
 
 struct PointLight {
   vec4 position; // ignore w

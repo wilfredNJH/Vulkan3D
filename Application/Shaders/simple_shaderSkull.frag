@@ -3,8 +3,8 @@
 layout (location = 0) in vec4 fragColor;
 layout (location = 1) in vec3 fragPosWorld;
 layout (location = 2) in vec3 fragNormalWorld;
-layout(location = 3) in vec2 fragTexCoord;
-layout(location = 4) in mat3 outT2W;
+layout (location = 3) in vec2 fragTexCoord;
+layout (location = 4) in mat3 outT2W;
 
 layout (location = 0) out vec4 outFragColor;
 
@@ -37,6 +37,7 @@ void main() {
 	// get the normal from a compress texture BC5
 	//
 	vec3 Normal;
+
 	// For BC5 it used (rg)
 	Normal.xy	= (texture(SamplerNormalMap, fragTexCoord).gr * 2.0) - 1.0;
 	
@@ -74,7 +75,7 @@ void main() {
     PointLight light = ubo.pointLights[i];
     const vec3  directionToLight  = light.position.xyz - fragPosWorld;
     const vec3  directionToLightN = normalize(directionToLight);
-    const float attenuation       = 1.0 / dot(directionToLight, directionToLight); // distance squared
+    const float attenuation       = 1.0;//1.0 / dot(directionToLight, directionToLight); // distance squared
     const float cosAngIncidence   = max(dot(Normal, directionToLightN), 0);
     const vec3  intensity         = light.color.xyz * light.color.w * attenuation;
 
@@ -87,16 +88,12 @@ void main() {
     // Another way to compute specular "BLINN-PHONG" (https://learnopengl.com/Advanced-Lighting/Advanced-Lighting)
     const float  SpecularI  = pow( max( 0, dot(Normal, normalize( directionToLightN - EyeDirection ))), Shininess );
 
-
-    //TotalLight.rgb  += diffuseLight.rgb * SamplerAOColor;
-
     // Add the contribution of this light
-    TotalLight.rgb += SpecularI.rrr * light.color.xyz;
+    TotalLight.rgb += SpecularI.rrr * light.color.xyz * SamplerAOColor;
   }
 
 	// Convert to gamma
 	const float Gamma = worldEyeSpacePos.w;
-	//outFragColor.a   = diffuseLight.a;
 	outFragColor.rgb = pow( TotalLight.rgb, vec3(1.0f/Gamma) );
 
 }
