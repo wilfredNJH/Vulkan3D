@@ -23,12 +23,14 @@ namespace nekographics {
         void update(FrameInfo& frameInfo, GlobalUbo& ubo);
         void render(FrameInfo& frameInfo);
 
+        bool mFollowCamera = true;//if light is following camera 
+        glm::vec4 mStaticCameraPos;//for holding the camera position
     private:
         void createPipelineLayout(VkDescriptorSetLayout globalSetLayout);
         void createPipeline(VkRenderPass renderPass);
 
-        NKDevice& m_Device;
 
+        NKDevice& m_Device;
         std::unique_ptr<NKPipeline> m_Pipeline;
         VkPipelineLayout pipelineLayout;
     };

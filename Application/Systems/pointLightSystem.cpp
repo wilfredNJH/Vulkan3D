@@ -53,6 +53,7 @@ namespace nekographics {
     }
 
     void PointLightSystem::update(FrameInfo& frameInfo, GlobalUbo& ubo) {
+
         auto rotateLight = glm::rotate(glm::mat4(1.f), 0.5f * frameInfo.frameTime, { 0.f, -1.f, 0.f });
         int lightIndex = 0;
         for (auto& kv : frameInfo.gameObjects) {
@@ -69,8 +70,15 @@ namespace nekographics {
             // copy light to ubo
             //update the first one to be in the camera position 
             if (lightIndex == 0) {
-                ubo.pointLights[lightIndex].position = ubo.cameraEyePos;
-                obj.transform.translation = ubo.cameraEyePos;
+                //if following camera update with the camera position 
+                if (mFollowCamera) {
+                    ubo.pointLights[lightIndex].position = ubo.cameraEyePos;
+                    obj.transform.translation = ubo.cameraEyePos;
+                }
+                else {
+                    ubo.pointLights[lightIndex].position = mStaticCameraPos;
+                    obj.transform.translation = mStaticCameraPos;
+                }
             }
             else {
                 ubo.pointLights[lightIndex].position = glm::vec4(obj.transform.translation, 1.f);

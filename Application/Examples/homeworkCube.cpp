@@ -89,6 +89,14 @@ int homeworkCube() {
 				camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 100.f);
 			}
 		}
+
+		//check light following camera
+		if (KeyManager.isKeyTriggered(VK_SPACE)) {
+			pointLightSystem.mFollowCamera = !pointLightSystem.mFollowCamera;//toggle between states
+			if (!pointLightSystem.mFollowCamera) {
+				pointLightSystem.mStaticCameraPos = {viewerObject.transform.translation,1.f};
+			}
+		}
 		
 		//check for window update
 		if (!application.m_window.Update()) {
