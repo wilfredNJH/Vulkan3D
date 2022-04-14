@@ -30,9 +30,8 @@ layout(set = 0, binding = 0) uniform GlobalUbo {
 
 layout(set = 0, binding = 1) uniform sampler2D SamplerNormalMap;		// [INPUT_TEXTURE_NORMAL]
 layout(set = 0, binding = 2) uniform sampler2D SamplerDiffuseMap;		// [INPUT_TEXTURE_DIFFUSE]
-layout(set = 0, binding = 3) uniform sampler2D SamplerAOMap;			// [INPUT_TEXTURE_AO]
-layout(set = 0, binding = 4) uniform sampler2D SamplerGlossivessMap;	// [INPUT_TEXTURE_GLOSSINESS]
-layout(set = 0, binding = 5) uniform sampler2D SamplerRoughnessMap;	// [INPUT_TEXTURE_ROUGHNESS]
+layout(set = 0, binding = 3) uniform sampler2D SamplerAOMap;			  // [INPUT_TEXTURE_AO]
+layout(set = 0, binding = 4) uniform sampler2D SamplerRoughnessMap;	// [INPUT_TEXTURE_ROUGHNESS]
 
 layout(push_constant) uniform Push {
   mat4 modelMatrix;
@@ -52,13 +51,4 @@ void main() {
   vec4 positionWorld      = push.modelMatrix * vec4(position, 1.0);
   fragPosWorld            = positionWorld.xyz;
   gl_Position             = ubo.projection * ubo.view * positionWorld;
-
-  // vec4 positionWorld = push.modelMatrix * vec4(position, 1.0);
-  // gl_Position = ubo.projection * ubo.view * positionWorld;
-  // fragNormalWorld = normalize(mat3(push.normalMatrix) * normal);
-  // fragPosWorld = positionWorld.xyz;
-  // fragColor = color;
-  // fragTexCoord = uv;
-
-  // outBTN                    = mat3( tangent, bitangent, normal);//calculate the BTN 
 }

@@ -24,9 +24,8 @@ layout(set = 0, binding = 0) uniform GlobalUbo {
 
 layout(set = 0, binding = 1) uniform sampler2D SamplerNormalMap;		// [INPUT_TEXTURE_NORMAL]
 layout(set = 0, binding = 2) uniform sampler2D SamplerDiffuseMap;		// [INPUT_TEXTURE_DIFFUSE]
-layout(set = 0, binding = 3) uniform sampler2D SamplerAOMap;			// [INPUT_TEXTURE_AO]
-layout(set = 0, binding = 4) uniform sampler2D SamplerGlossivessMap;	// [INPUT_TEXTURE_GLOSSINESS]
-layout(set = 0, binding = 5) uniform sampler2D SamplerRoughnessMap;	// [INPUT_TEXTURE_ROUGHNESS]
+layout(set = 0, binding = 3) uniform sampler2D SamplerAOMap;			  // [INPUT_TEXTURE_AO]
+layout(set = 0, binding = 4) uniform sampler2D SamplerRoughnessMap;	// [INPUT_TEXTURE_ROUGHNESS]
 
 layout(push_constant) uniform Push {
   mat4 modelMatrix;
@@ -63,7 +62,6 @@ void main() {
   //
   const vec3  Albedo        = texture(SamplerDiffuseMap, fragTexCoord).rgb;
   const float Shininess     = mix( 1, 100, 1 - texture( SamplerRoughnessMap, fragTexCoord).r ); //80 preset 
-  const vec3  Glossiveness  = texture(SamplerGlossivessMap, fragTexCoord).rgb;
   const vec3  SpecularColor = vec3(1);
   const vec3  SamplerAOColor = texture(SamplerAOMap, fragTexCoord).rgb;
 
@@ -101,29 +99,4 @@ void main() {
 	//outFragColor.a   = diffuseLight.a;
 	outFragColor.rgb = pow( TotalLight.rgb, vec3(1.0f/Gamma) );
 
-
-
-
-
-  //-------------------------------------------------OLD-----------------------------------
-
-  // vec3 diffuseLight = ubo.ambientLightColor.xyz * ubo.ambientLightColor.w;
-  // //vec3 surfaceNormal = normalize(fragNormalWorld);
-  // //surfaceNormal = outBTN * surfaceNormal;
-
-  // for (int i = 0; i < ubo.numLights; i++) {
-  //   PointLight light = ubo.pointLights[i];
-  //   vec3 directionToLight = light.position.xyz - fragPosWorld;
-  //   float attenuation = 1.0 / dot(directionToLight, directionToLight); // distance squared
-  //   float cosAngIncidence = max(dot(Normal, normalize(directionToLight)), 0);
-  //   vec3 intensity = light.color.xyz * light.color.w * attenuation;
-  
-
-  //   diffuseLight += intensity * cosAngIncidence;
-  // }
-
-  // vec3 tmpColor = diffuseLight * texture(texSampler2, fragTexCoord).rgb;
-
-  // outColor = vec4(tmpColor,1.0);
-  
 }
