@@ -317,61 +317,51 @@ namespace nekographics {
     //helper function for assimpmodel
 
     NKModel::Mesh  NKModel::AssimpBuilder::processMesh(aiMesh* mesh, const aiScene* scene) {
-        UNREFERENCED_PARAMETER(scene);
-        std::unordered_map<Vertex, uint32_t> uniqueVertices{};//setting a map of unqiue vertices 
-        std::vector<Vertex> vertices;
-        std::vector<unsigned int> indices;
-        for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-            Vertex vertex;
-            glm::vec3 vector;
-            vector.x = mesh->mVertices[i].x;
-            vector.y = -mesh->mVertices[i].y;
-            vector.z = mesh->mVertices[i].z;
-            vertex.position = vector;
+        // Data to fill
+        std::vector<Vertex>			Vertices;
+        std::vector<std::uint32_t>	Indices;
 
-            //setting texture coords
-            if (mesh->HasTextureCoords(i)) {
-                glm::vec2 vec;
-                vec.x = mesh->mTextureCoords[0][i].x;
-                vec.y = mesh->mTextureCoords[0][i].y;
-                vertex.uv = vec;
-            }
-            else {
-                vertex.uv = glm::vec2(0.0f, 0.0f);
-            }
+        // Walk through each of the mesh's vertices
+        for (auto i = 0u; i < mesh->mNumVertices; ++i)
+        {
+            Vertex Vertextmp;
 
-            //setting tangent & bitangent 
-            if (mesh->HasTangentsAndBitangents()) {
-                //setting tangent 
-                vertex.tangent.x = mesh->mTangents[i].x;
-                vertex.tangent.y = mesh->mTangents[i].y;
-                vertex.tangent.z = mesh->mTangents[i].z;
-                //setting bitangent
-                vertex.bitangent.x = mesh->mBitangents[i].x;
-                vertex.bitangent.y = mesh->mBitangents[i].y;
-                vertex.bitangent.z = mesh->mBitangents[i].z;
+            Vertextmp.position = glm::vec3
+            (static_cast<float>(mesh->mVertices[i].x)
+                , static_cast<float>(mesh->mVertices[i].y)
+                , static_cast<float>(mesh->mVertices[i].z)
+            );
+
+            if (mesh->mTextureCoords[0])
+            {
+                Vertextmp.uv = glm::vec2
+                (static_cast<float>(mesh->mTextureCoords[0][i].x)
+                    , static_cast<float>(mesh->mTextureCoords[0][i].y)
+                );
             }
 
-            //setting normals 
-            if (mesh->HasNormals()) {
-                glm::vec3 norm;
-                norm.x = mesh->mNormals[i].x;
-                norm.y = mesh->mNormals[i].y;
-                norm.z = mesh->mNormals[i].z;
-                vertex.normal = norm;
+            if (mesh->mColors[0])
+            {
+                Vertextmp.color = glm::vec4
+                (static_cast<float>(mesh->mColors[0][i].r)
+                    , static_cast<float>(mesh->mColors[0][i].g)
+                    , static_cast<float>(mesh->mColors[0][i].b)
+                    , static_cast<float>(mesh->mColors[0][i].a)
+                );
             }
-            else {
-                vertex.normal = glm::vec3(0.0f, 0.0f,0.0f);
-            }
-            vertices.push_back(vertex);
+
+            Vertices.push_back(Vertextmp);
         }
-        for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
-            aiFace face = mesh->mFaces[i];
-            for (unsigned int j = 0; j < face.mNumIndices; j++) {
-                indices.push_back(face.mIndices[j]);
-            }
+
+        // Walk thourgh the faces
+        for (auto i = 0u; i < mesh->mNumFaces; ++i)
+        {
+            const auto& Face = mesh->mFaces[i];
+
+            for (auto j = 0u; j < Face.mNumIndices; ++j)
+                Indices.push_back(Face.mIndices[j]);
         }
-        return Mesh(vertices, indices);
+        return Mesh(Vertices, Indices);
     }
 
     void NKModel::AssimpBuilder::processNode(aiNode* node, const aiScene* scene) {
