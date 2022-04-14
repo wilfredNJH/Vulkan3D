@@ -50,6 +50,8 @@ void main() {
 	// Transform the normal to from tangent space to world space
 	Normal = normalize(outT2W * Normal);
 
+  Normal.y = -Normal.y;
+
 
 	//
 	// Different techniques to do Lighting
