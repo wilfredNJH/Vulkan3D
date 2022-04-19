@@ -21,9 +21,25 @@ namespace nekographics {
     void KeyboardMovementController::moveInPlaneXZ(
         VkWindow* window, float dt, NkGameObject& gameObject) {
 
-        //check if wants to switch
+
+        /*********
+        Toggle between the 2 models 
+        ***********/
+        if (KeyManager.isKeyTriggered('1') && modelNumber == false) {
+            modelNumber = true;//switching the model number 
+            std::cout << "viewing model skull\n";//printing out the model 
+        }
+        else if (KeyManager.isKeyTriggered('2') && modelNumber == true) {
+            modelNumber = false;//switching the model number 
+            std::cout << "viewing model car\n";//printing out the model 
+        }
+
+        /*********
+        Check if wants to switch camera mode
+        ***********/
         if (KeyManager.isKeyTriggered('M')) {
             firstPerson = false;//set back to first person 
+            std::cout << "**Current Viewer Mode : Third Person**\n";
             return;
         }
 
@@ -89,10 +105,25 @@ namespace nekographics {
 
     void KeyboardMovementController::moveThirdPerson(float dt, NkGameObject& gameObject, NkGameObject& camera) { 
 
+
+        /*********
+        Toggle between the 2 models
+        ***********/
+        if (KeyManager.isKeyTriggered('1') && modelNumber == false) {
+            modelNumber = true;//switching the model number 
+            std::cout << "viewing model skull\n";//printing out the model 
+        }
+        else if (KeyManager.isKeyTriggered('2') && modelNumber == true) {
+            modelNumber = false;//switching the model number 
+            std::cout << "viewing model car\n";//printing out the model 
+        }
+
+
         /*********
         Check if wants to switch camera mode 
         ***********/
         if (KeyManager.isKeyTriggered('M')) {
+            std::cout << "**Current Viewer Mode : First Person**\n";
             firstPerson = true;//set back to first person 
             return;
         }

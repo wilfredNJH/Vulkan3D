@@ -139,7 +139,7 @@ namespace nekographics {
 			NKModel::createAssimpModelFromFile(m_vkDevice, "Models/FBX/_2_Vintage_Car_01_low.fbx");
 		auto vintageCar = NkGameObject::createGameObject();
 		vintageCar.model = vintageCarModel;
-		vintageCar.transform.translation = { 0.0f, 0.0f, -4.0f };
+		vintageCar.transform.translation = { 0.0f, 0.0f, -8.0f };
 		vintageCar.transform.scale = { 0.5f, 0.5f, 0.5f };
 		gameObjects.emplace(vintageCar.getId(), std::move(vintageCar));
 

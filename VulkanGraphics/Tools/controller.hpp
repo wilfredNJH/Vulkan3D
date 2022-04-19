@@ -26,6 +26,8 @@ namespace nekographics {
 
         bool firstPerson = false;//tracks first person or third person perspective 
 
+        bool modelNumber = true;//toggle between the first model and the second model 
+
         //controls speed 
         float moveSpeed{ 3.f };
         float lookSpeed{ 3.f };

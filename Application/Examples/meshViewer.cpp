@@ -79,8 +79,15 @@ int meshViewer() {
 			camera.setViewYXZ(viewerObject.transform.translation, viewerObject.transform.rotation);
 		}
 		else {
-			cameraController.moveThirdPerson(frameTime, application.gameObjects[0],viewerObject);
-			camera.setViewTarget(viewerObject.transform.translation, application.gameObjects[0].transform.translation);//setting the view target 
+			//if you're looking at the first model
+			if (cameraController.modelNumber) {
+				cameraController.moveThirdPerson(frameTime, application.gameObjects[0],viewerObject);
+				camera.setViewTarget(viewerObject.transform.translation, application.gameObjects[0].transform.translation);//setting the view target 
+			}
+			else {
+				cameraController.moveThirdPerson(frameTime, application.gameObjects[1], viewerObject);
+				camera.setViewTarget(viewerObject.transform.translation, application.gameObjects[1].transform.translation);//setting the view target 
+			}
 		}
 
 		//checking it's minimised 
