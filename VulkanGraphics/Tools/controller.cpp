@@ -21,19 +21,6 @@ namespace nekographics {
     void KeyboardMovementController::moveInPlaneXZ(
         VkWindow* window, float dt, NkGameObject& gameObject) {
 
-
-        /*********
-        Toggle between the 2 models 
-        ***********/
-        if (KeyManager.isKeyTriggered('1') && modelNumber == false) {
-            modelNumber = true;//switching the model number 
-            std::cout << "viewing model skull\n";//printing out the model 
-        }
-        else if (KeyManager.isKeyTriggered('2') && modelNumber == true) {
-            modelNumber = false;//switching the model number 
-            std::cout << "viewing model car\n";//printing out the model 
-        }
-
         /*********
         Check if wants to switch camera mode
         ***********/
@@ -103,17 +90,22 @@ namespace nekographics {
         return glm::acos(glm::dot(da, db));
     }
 
-    void KeyboardMovementController::moveThirdPerson(float dt, NkGameObject& gameObject, NkGameObject& camera) { 
+    void KeyboardMovementController::moveThirdPerson(float dt, NkGameObject::Map& gameObject, NkGameObject& camera) {
 
+        static TransformComponent currentGameObject; 
 
         /*********
         Toggle between the 2 models
         ***********/
         if (KeyManager.isKeyTriggered('1') && modelNumber == false) {
+            currentGameObject = gameObject[0].transform;
+            std::swap(gameObject[0].transform.translation, gameObject[1].transform.translation);
             modelNumber = true;//switching the model number 
             std::cout << "viewing model skull\n";//printing out the model 
         }
         else if (KeyManager.isKeyTriggered('2') && modelNumber == true) {
+            currentGameObject = gameObject[1].transform;
+            std::swap(gameObject[0].transform.translation, gameObject[1].transform.translation);
             modelNumber = false;//switching the model number 
             std::cout << "viewing model car\n";//printing out the model 
         }
@@ -146,19 +138,19 @@ namespace nekographics {
 
         //calculating the rotation 
         if (glm::dot(rotate, rotate) > std::numeric_limits<float>::epsilon()) {
-            gameObject.transform.rotation += lookSpeed * dt * glm::normalize(rotate);
+            currentGameObject.rotation += lookSpeed * dt * glm::normalize(rotate);
         }
 
         //gameObject.transform.rotation.x = glm::clamp(gameObject.transform.rotation.x, -1.5f, 1.5f);// limit pitch values between about +/- 85ish degrees
-        gameObject.transform.rotation.x = glm::mod(gameObject.transform.rotation.x, glm::two_pi<float>());
-        gameObject.transform.rotation.y = glm::mod(gameObject.transform.rotation.y, glm::two_pi<float>());
+       currentGameObject.rotation.x = glm::mod(currentGameObject.rotation.x, glm::two_pi<float>());
+       currentGameObject.rotation.y = glm::mod(currentGameObject.rotation.y, glm::two_pi<float>());
 
 
 
         /*********
         Rotating the Cube Object
         ***********/
-        glm::vec3 resultingVector = gameObject.transform.translation - camera.transform.translation;//vector to game object
+        glm::vec3 resultingVector = currentGameObject.translation - camera.transform.translation;//vector to game object
 
 
         const glm::vec3 forwardDir{ resultingVector };
@@ -170,7 +162,7 @@ namespace nekographics {
         if (MouseManager.getMouseScroll() > 0) {
             const float clampDistance = 0.3f;
             //clamp if too near to the box 
-            if (glm::distance(gameObject.transform.translation, camera.transform.translation) <= 3.f) {
+            if (glm::distance(currentGameObject.translation, camera.transform.translation) <= 3.f) {
                 moveDir = { 0.f,0.f,0.f };
             }
             else {

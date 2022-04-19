@@ -22,7 +22,7 @@ namespace nekographics {
     public:
 
         void moveInPlaneXZ(VkWindow* window, float dt, NkGameObject& gameObject);//moving the plane xz 
-        void moveThirdPerson(float dt, NkGameObject& gameObject, NkGameObject& camera);//moving in third person perspective 
+        void moveThirdPerson(float dt, NkGameObject::Map& gameObject, NkGameObject& camera);//moving in third person perspective 
 
         bool firstPerson = false;//tracks first person or third person perspective 
 

@@ -81,11 +81,11 @@ int meshViewer() {
 		else {
 			//if you're looking at the first model
 			if (cameraController.modelNumber) {
-				cameraController.moveThirdPerson(frameTime, application.gameObjects[0],viewerObject);
+				cameraController.moveThirdPerson(frameTime, application.gameObjects,viewerObject);
 				camera.setViewTarget(viewerObject.transform.translation, application.gameObjects[0].transform.translation);//setting the view target 
 			}
 			else {
-				cameraController.moveThirdPerson(frameTime, application.gameObjects[1], viewerObject);
+				cameraController.moveThirdPerson(frameTime, application.gameObjects, viewerObject);
 				camera.setViewTarget(viewerObject.transform.translation, application.gameObjects[1].transform.translation);//setting the view target 
 			}
 		}
