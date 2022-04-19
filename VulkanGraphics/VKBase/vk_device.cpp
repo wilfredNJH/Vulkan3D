@@ -18,6 +18,11 @@ namespace nekographics {
         void* pUserData) {
         std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
 
+
+        UNREFERENCED_PARAMETER(messageSeverity);
+        UNREFERENCED_PARAMETER(messageType);
+        UNREFERENCED_PARAMETER(pUserData);
+
         return VK_FALSE;
     }
 
@@ -398,12 +403,12 @@ namespace nekographics {
         throw std::runtime_error("failed to find supported format!");
     }
 
-    uint32_t NKDevice::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties) {
+    uint32_t NKDevice::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags pProperties) {
         VkPhysicalDeviceMemoryProperties memProperties;
         vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memProperties);
         for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++) {
             if ((typeFilter & (1 << i)) &&
-                (memProperties.memoryTypes[i].propertyFlags & properties) == properties) {
+                (memProperties.memoryTypes[i].propertyFlags & pProperties) == pProperties) {
                 return i;
             }
         }
@@ -414,7 +419,7 @@ namespace nekographics {
     void NKDevice::createBuffer(
         VkDeviceSize size,
         VkBufferUsageFlags usage,
-        VkMemoryPropertyFlags properties,
+        VkMemoryPropertyFlags pProperties,
         VkBuffer& buffer,
         VkDeviceMemory& bufferMemory) {
 
@@ -434,7 +439,7 @@ namespace nekographics {
         VkMemoryAllocateInfo allocInfo{};
         allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
         allocInfo.allocationSize = memRequirements.size;
-        allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits, properties);
+        allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits, pProperties);
 
         if (vkAllocateMemory(device_, &allocInfo, nullptr, &bufferMemory) != VK_SUCCESS) {
             throw std::runtime_error("failed to allocate vertex buffer memory!");
@@ -490,6 +495,8 @@ namespace nekographics {
     void NKDevice::copyBufferToImage(
         VkBuffer buffer, VkImage image, uint32_t width, uint32_t height, uint32_t layerCount,uint32_t mipCount, std::vector<uint32_t> offsets) {
 
+        UNREFERENCED_PARAMETER(layerCount);
+
         VkCommandBuffer commandBuffer = beginSingleTimeCommands();
 
         // Setup buffer copy regions for each mip level
@@ -529,27 +536,6 @@ namespace nekographics {
             Offset += static_cast<uint32_t>(offsets[i]);
         }
 
-        //VkBufferImageCopy region{};
-        //region.bufferOffset = 0;
-        //region.bufferRowLength = 0;
-        //region.bufferImageHeight = 0;
-
-        //region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-        //region.imageSubresource.mipLevel = 0;
-        //region.imageSubresource.baseArrayLayer = 0;
-        //region.imageSubresource.layerCount = layerCount;
-
-        //region.imageOffset = { 0, 0, 0 };
-        //region.imageExtent = { width, height, 1 };
-
-        //vkCmdCopyBufferToImage(
-        //    commandBuffer,
-        //    buffer,
-        //    image,
-        //    VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-        //    1,
-        //    &region);
-
         // Copy mip levels from staging buffer
         vkCmdCopyBufferToImage(commandBuffer
             , buffer
@@ -562,7 +548,7 @@ namespace nekographics {
 
     void NKDevice::createImageWithInfo(
         const VkImageCreateInfo& imageInfo,
-        VkMemoryPropertyFlags properties,
+        VkMemoryPropertyFlags pProperties,
         VkImage& image,
         VkDeviceMemory& imageMemory) {
         if (vkCreateImage(device_, &imageInfo, nullptr, &image) != VK_SUCCESS) {
@@ -575,7 +561,7 @@ namespace nekographics {
         VkMemoryAllocateInfo allocInfo{};
         allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
         allocInfo.allocationSize = memRequirements.size;
-        allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits, properties);
+        allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits, pProperties);
 
         if (vkAllocateMemory(device_, &allocInfo, nullptr, &imageMemory) != VK_SUCCESS) {
             throw std::runtime_error("failed to allocate image memory!");

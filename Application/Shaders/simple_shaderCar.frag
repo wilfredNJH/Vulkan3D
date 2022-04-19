@@ -33,43 +33,31 @@ layout(push_constant) uniform Push {
 } push;
 
 void main() {
-  //
-	// get the normal from a compress texture BC5
-	//
-	vec3 Normal;
 
-	// For BC5 it used (rg)
-	Normal.xy	= (texture(SamplerNormalMap, fragTexCoord).gr * 2.0) - 1.0;
+	vec3 Normal;
+	Normal.xy	= (texture(SamplerNormalMap, fragTexCoord).gr * 2.0) - 1.0;// For BC5 it used (rg)
 	
 	// Derive the final element (all in Tangent space)
   // x^2 + y^2 + z^2 = 1
   // z^2             = 1 - x^2 - y^2
   // z               = sqrt( 1 - (x^2 + y^2) )
 	Normal.z =  sqrt(1.0 - dot(Normal.xy, Normal.xy));
+	Normal = normalize(outT2W * Normal);// Transform the normal to from tangent space to world space
+  Normal.y = -Normal.y;//inverting the normal
 
-	// Transform the normal to from tangent space to world space
-	Normal = normalize(outT2W * Normal);
-
-  Normal.y = -Normal.y;
-
-
-	//
 	// Different techniques to do Lighting
-	//
   vec4 worldEyeSpacePos = ubo.cameraEyePos;
 
-  //
   // Load Textures
-  //
   const vec3  Albedo        = texture(SamplerDiffuseMap, fragTexCoord).rgb;
   const float Shininess     = mix( 1, 100, 1 - texture( SamplerRoughnessMap, fragTexCoord).r ); //80 preset 
   const vec3  SpecularColor = vec3(1);
   const vec3  SamplerAOColor = texture(SamplerAOMap, fragTexCoord).rgb;
 
-  //
 	// Different techniques to do Lighting
-	//
   vec3 TotalLight     = ubo.ambientLightColor.xyz * ubo.ambientLightColor.w;
+
+  //loop through all the lights
   for (int i = 0; i < ubo.numLights; i++) 
   {
     PointLight light = ubo.pointLights[i];
@@ -82,15 +70,13 @@ void main() {
     TotalLight += intensity * cosAngIncidence;
     TotalLight *= Albedo.rgb;
 
-    // Note This is the true Eye to Texel direction 
-    const vec3  EyeDirection      = normalize( fragPosWorld - worldEyeSpacePos.xyz );
+    const vec3  EyeDirection      = normalize( fragPosWorld - worldEyeSpacePos.xyz );// Note This is the true Eye to Texel direction 
 
     // Another way to compute specular "BLINN-PHONG" (https://learnopengl.com/Advanced-Lighting/Advanced-Lighting)
     const float  SpecularI  = pow( max( 0, dot(Normal, normalize( directionToLightN - EyeDirection ))), Shininess );
 
     // Add the contribution of this light
     TotalLight.rgb += SpecularI.rrr * light.color.xyz * SamplerAOColor;
-    //TotalLight.rgb += SpecularI.rrr * light.color.xyz;
   }
 
 	// Convert to gamma

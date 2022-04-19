@@ -18,10 +18,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Examples\homeworkCube.cpp">
+    <ClCompile Include="Examples\meshViewer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Examples\homeworkCube\3DCube.cpp">
+    <ClCompile Include="Examples\MeshViewer\3DMeshViewer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Systems\rendererSystem.cpp">
@@ -41,7 +41,7 @@
     <ClInclude Include="Examples\examples.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Examples\homeworkCube\3DCube.hpp">
+    <ClInclude Include="Examples\MeshViewer\3DMeshViewer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Systems\rendererSystem.hpp">

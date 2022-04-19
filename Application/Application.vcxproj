@@ -12,8 +12,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dependencies\glm\detail\glm.cpp" />
-    <ClCompile Include="Examples\homeworkCube.cpp" />
-    <ClCompile Include="Examples\homeworkCube\3DCube.cpp" />
+    <ClCompile Include="Examples\meshViewer.cpp" />
+    <ClCompile Include="Examples\MeshViewer\3DMeshViewer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Systems\pointLightSystem.cpp" />
     <ClCompile Include="Systems\rendererSystem.cpp" />
@@ -303,7 +303,7 @@
     <ClInclude Include="Dependencies\glm\vec4.hpp" />
     <ClInclude Include="Dependencies\glm\vector_relational.hpp" />
     <ClInclude Include="Examples\examples.h" />
-    <ClInclude Include="Examples\homeworkCube\3DCube.hpp" />
+    <ClInclude Include="Examples\MeshViewer\3DMeshViewer.hpp" />
     <ClInclude Include="Meshes\xprim_geom.h" />
     <ClInclude Include="Meshes\xprim_geom_capsule.h" />
     <ClInclude Include="Meshes\xprim_geom_cube.h" />

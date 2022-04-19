@@ -1,16 +1,17 @@
 /******************************************************************************/
 /*!
-\file   homeworkCube.hpp
+\file   meshViewer.hpp
 \author Wilfred Ng Jun Hwee
 \par    DP email: junhweewilfred.ng[at]digipen.edu
 \par    course: csd2150
-\par    Homework 2
-\date   03/07/2022
+\par    Final Mesh Viewer
+\date   04/15/2022
 \brief
 	This is the implementation file of the application
 */
 /******************************************************************************/
 
+//includes 
 #include "vk_gameobject.hpp"
 #include "renderer.hpp"
 #include "camera.hpp"
@@ -19,14 +20,14 @@
 #include "controller.hpp"
 #include "vk_buffer.hpp"
 #include "vk_descriptors.hpp"
-
-#include <iostream>
 #include "WindowManager.h"
-#include "Examples/homeworkCube/3DCube.hpp"
+#include "Examples/MeshViewer/3DMeshViewer.hpp"
+
+//std
+#include <iostream>
 
 
-
-int homeworkCube() {
+int meshViewer() {
 	
 	//creating all vulkan 
 	nekographics::gameApp application{};
@@ -57,6 +58,7 @@ int homeworkCube() {
 	Game Loop
 	************/
 	while (!application.m_window.closeWindow()) {
+
 		/***********
 		Input Manager
 		************/
@@ -90,10 +92,8 @@ int homeworkCube() {
 			}
 		}
 
-		//update light with input 
-		pointLightSystem.inputUpdate(viewerObject);
+		pointLightSystem.inputUpdate(viewerObject);//update light with input 
 		
-		//check for window update
 		if (!application.m_window.Update()) {
 			/***********
 			Draw
@@ -115,7 +115,7 @@ int homeworkCube() {
 					ubo.view = camera.getView();
 					ubo.cameraEyePos = { viewerObject.transform.translation ,1.f };
 
-					pointLightSystem.update(frameInfo, ubo);
+					pointLightSystem.update(frameInfo, ubo);//point light system update 
 					application.uboBuffers[frameIndex]->writeToBuffer(&ubo);
 					application.uboBuffers[frameIndex]->flush();
 

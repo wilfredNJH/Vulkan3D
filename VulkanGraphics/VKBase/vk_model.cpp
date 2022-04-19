@@ -317,6 +317,9 @@ namespace nekographics {
     //helper function for assimpmodel
 
     NKModel::Mesh  NKModel::AssimpBuilder::processMesh(aiMesh* mesh, const aiScene* scene) {
+
+        UNREFERENCED_PARAMETER(scene);
+
         // Data to fill
         std::vector<Vertex>			Vertices;
         std::vector<std::uint32_t>	Indices;

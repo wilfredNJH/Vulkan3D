@@ -4,8 +4,8 @@
 \author Wilfred Ng Jun Hwee
 \par    DP email: junhweewilfred.ng[at]digipen.edu
 \par    course: csd2150
-\par    Homework 2
-\date   03/07/2022
+\par    Final Mesh Viewer
+\date   04/15/2022
 \brief
     This is the implementation file of the window manager
 */
@@ -65,8 +65,9 @@ VkWindow::VkWindow(int width,int height) : mSizeChanged(false), mCanRender(true)
     {
         std::cout << "failed to creat window" << std::endl;
     }
+
     // Create window
-    wHandle = CreateWindow(wcex.lpszClassName, TEXT("Homework Cube"), WS_OVERLAPPEDWINDOW, 20, 20, width, height, nullptr, nullptr, wInstance, nullptr);
+    wHandle = CreateWindow(wcex.lpszClassName, TEXT("Mesh Viewer"), WS_OVERLAPPEDWINDOW, 20, 20, width, height, nullptr, nullptr, wInstance, nullptr);
     if (!wHandle)
     {
         std::cout << "failed to creat window" << std::endl;
@@ -109,6 +110,7 @@ bool VkWindow::Update() {
 }
 
 void VkWindow::showWindow() {
+
     //init showing the window 
     ShowWindow(wHandle, 1);
     UpdateWindow(wHandle);

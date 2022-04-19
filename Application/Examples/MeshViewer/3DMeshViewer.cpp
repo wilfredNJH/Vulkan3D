@@ -4,15 +4,15 @@
 \author Wilfred Ng Jun Hwee
 \par    DP email: junhweewilfred.ng[at]digipen.edu
 \par    course: csd2150
-\par    Homework 2
-\date   03/07/2022
+\par    Final Mesh Viewer
+\date   04/15/2022
 \brief
 	This is the implementation file of the application
 */
 /******************************************************************************/
 
 //includes
-#include "3DCube.hpp"
+#include "3DMeshViewer.hpp"
 #include "controller.hpp"
 
 // libs
