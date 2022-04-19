@@ -121,14 +121,13 @@ namespace nekographics {
 		skull.transform.scale = { 0.01, 0.01, 0.01f };
 		gameObjects.emplace(skull.getId(), std::move(skull));
 
-		//std::shared_ptr<NKModel> secondModel =
-		//	NKModel::createAssimpModelFromFile(m_vkDevice, "Models/FBX/F-15E Strike Eagle Aircraft 3D Model.fbx");
-		//auto secondMesh = NkGameObject::createGameObject();
-		//secondMesh.model = secondModel;
-		//secondMesh.transform.translation = { 0.f, 0.f, 0.f };
-		//secondMesh.transform.scale = { 0.01f, 0.01f, 0.01f };
-		////skull.transform.scale = { 5.f, 5.f, 5.f };
-		//gameObjects.emplace(secondMesh.getId(), std::move(secondMesh));
+		std::shared_ptr<NKModel> vintageCarModel =
+			NKModel::createAssimpModelFromFile(m_vkDevice, "Models/FBX/_2_Vintage_Car_01_low.fbx");
+		auto vintageCar = NkGameObject::createGameObject();
+		vintageCar.model = vintageCarModel;
+		vintageCar.transform.translation = { 0.0f, 0.0f, -4.0f };
+		vintageCar.transform.scale = { 0.5f, 0.5f, 0.5f };
+		gameObjects.emplace(vintageCar.getId(), std::move(vintageCar));
 
 		/**************
 		Creating Mesh
