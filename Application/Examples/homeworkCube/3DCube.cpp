@@ -180,7 +180,7 @@ namespace nekographics {
 
 		std::vector<glm::vec3> lightColors{
 			{1.f, 1.f, 1.f},
-			//{1.f, .1f, .1f},
+			{1.f, .1f, .1f},
 			//{.1f, .1f, 1.f},
 			//{.1f, 1.f, .1f},
 			//{1.f, 1.f, .1f},
@@ -194,7 +194,7 @@ namespace nekographics {
 				glm::mat4(1.f),
 				(i * glm::two_pi<float>()) / lightColors.size(),
 				{ 0.f, -1.f, 0.f });
-			pointLight.transform.translation = glm::vec3(rotateLight * glm::vec4(-1.f, -1.f, -1.f, 1.f));
+			pointLight.transform.translation = glm::vec3(rotateLight * glm::vec4(-1.f, -2.f, -1.f, 1.f));
 			gameObjects.emplace(pointLight.getId(), std::move(pointLight));
 		}
 	}
