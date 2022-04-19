@@ -226,48 +226,6 @@ namespace nekographics {
 
 	}
 
-	void NKTexture::createTextureImageDDS(const std::string& texturePath) {
-
-		DDSFile dds;
-		auto ret = dds.Load(texturePath.c_str());
-		if (tinyddsloader::Result::Success != ret) {
-			std::cout << "Failed to load.\n";
-			std::cout << "Result : " << int(ret) << "\n";
-		}
-		VkDeviceSize imageSize = dds.GetImageData(0, 0)->m_memSlicePitch;//getting the image size of 1 image(mip map)
-
-		void* pixels = dds.GetImageData(0, 0)->m_mem;
-		int texWidth, texHeight;
-		//setting the width and the height of the image 
-		texWidth = dds.GetWidth();
-		texHeight = dds.GetHeight();
-
-		VkBuffer stagingBuffer;
-		VkDeviceMemory stagingBufferMemory;
-		m_vkDevice.createBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
-
-		void* data;
-		vkMapMemory(m_vkDevice.device(), stagingBufferMemory, 0, imageSize, 0, &data);
-		memcpy(data, pixels, static_cast<size_t>(imageSize));
-		vkUnmapMemory(m_vkDevice.device(), stagingBufferMemory);
-
-		createImage(texWidth, texHeight, VK_FORMAT_BC1_RGBA_SRGB_BLOCK, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, textureImage, textureImageMemory, dds.GetMipCount());
-
-		transitionImageLayout(textureImage, VK_FORMAT_BC1_RGBA_SRGB_BLOCK, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
-		m_vkDevice.copyBufferToImage(stagingBuffer, textureImage, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight), 1);
-		transitionImageLayout(textureImage, VK_FORMAT_BC1_RGBA_SRGB_BLOCK, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
-
-		vkDestroyBuffer(m_vkDevice.device(), stagingBuffer, nullptr);
-		vkFreeMemory(m_vkDevice.device(), stagingBufferMemory, nullptr);
-
-		//storing into a vector 
-		textureImageMemoryVec.emplace_back(textureImageMemory);
-		textureImageVec.emplace_back(textureImage);
-
-		//createTextureImageView();
-		//createTextureSampler();
-	}
-
 	void NKTexture::createTextureImageDDSMIPMAPS(const std::string& texturePath) {
 
 		DDSFile dds;

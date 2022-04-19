@@ -10,9 +10,8 @@ namespace nekographics {
 		~NKTexture();
 
 		//loading of the textures 
-		void createTextureImageDDS(const std::string& filepath);
 		void createTextureImageSTB(const std::string& filepath);
-		void createTextureImageDDSMIPMAPS(const std::string& filepath);//TO DO: for testing only, remove 
+		void createTextureImageDDSMIPMAPS(const std::string& filepath);
 
 		std::vector<VkImage> textureImageVec;
 		std::vector<VkDeviceMemory> textureImageMemoryVec;
