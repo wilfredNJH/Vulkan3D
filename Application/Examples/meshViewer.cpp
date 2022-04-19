@@ -35,6 +35,42 @@ int meshViewer() {
 	//showing the window
 	application.m_window.showWindow();
 
+	/**************
+	Loading Textures
+	**************/
+	//for the skull
+	application.loadTextures("Textures/dds/TD_Checker_Normal_OpenGL.dds");		//loading DDS image texture for : Normal Map
+	application.loadTextures("Textures/dds/TD_Checker_Base_Color.dds");			//loading DDS image texture for : Diffuse 
+	application.loadTextures("Textures/dds/TD_Checker_Mixed_AO.dds");			//loading DDS image texture for : Ambient Occlusion
+	application.loadTextures("Textures/dds/TD_Checker_Roughness.dds");			//loading DDS image texture for : Roughness
+
+	//for the vintage car 
+	application.loadTextures("Textures/dds/_Normal_DirectX.dds");				//loading DDS image texture for : Normal Map
+	application.loadTextures("Textures/dds/_Base_Color.dds");					//loading DDS image texture for : Diffuse 
+	application.loadTextures("Textures/dds/_Mixed_AO.dds");						//loading DDS image texture for : Ambient Occlusion
+	application.loadTextures("Textures/dds/_Roughness.dds");					//loading DDS image texture for : Roughness
+
+	application.pipelineLayout();//setting up the pipeline 
+
+	/**************
+	Creating FBX model
+	**************/
+	std::shared_ptr<nekographics::NKModel> skullModel = nekographics::NKModel::createAssimpModelFromFile(application.m_vkDevice, "Models/FBX/Skull_textured.fbx");
+	auto skull = nekographics::NkGameObject::createGameObject();
+	skull.model = skullModel;
+	skull.transform.translation = { 0.f, 0.f, 0.f };
+	skull.transform.scale = { 0.01, 0.01, 0.01f };
+	application.gameObjects.emplace(skull.getId(), std::move(skull));
+
+	std::shared_ptr<nekographics::NKModel> vintageCarModel = nekographics::NKModel::createAssimpModelFromFile(application.m_vkDevice, "Models/FBX/_2_Vintage_Car_01_low.fbx");
+	auto vintageCar = nekographics::NkGameObject::createGameObject();
+	vintageCar.model = vintageCarModel;
+	vintageCar.transform.translation = { 0.0f, 0.0f, -8.0f };
+	vintageCar.transform.scale = { 0.5f, 0.5f, 0.5f };
+	application.gameObjects.emplace(vintageCar.getId(), std::move(vintageCar));
+
+	application.loadPointLights(2);//loading point lights
+
 	/***********
 	Init Camera & Renderer 
 	************/

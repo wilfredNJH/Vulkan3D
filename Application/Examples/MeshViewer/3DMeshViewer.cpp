@@ -25,49 +25,14 @@
 #include <chrono>
 #include <iostream>
 
+#define MAX_NUM_LIGHTS 4
+#define MIN_NUM_LIGHTS 1
+
 namespace nekographics {
 
-	gameApp::gameApp() {
+	void gameApp::pipelineLayout() {
 		/**************
-		Creating Descriptor Pool
-		**************/
-		globalPool =
-			NKDescriptorPool::Builder(m_vkDevice)
-			.setMaxSets(NKSwapChain::MAX_FRAMES_IN_FLIGHT)
-			.addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
-			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
-			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
-			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
-			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)			
-			
-			//for the vintage textures 
-			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
-			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
-			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
-			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
-			.build();
-
-
-		loadGameObjects();//loading in the game objects
-
-		/**************
-		Creating Textures
-		**************/
-		//for the skull
-		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Normal_OpenGL.dds");		//creating DDS image texture for : Normal Map
-		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Base_Color.dds");			//creating DDS image texture for : Diffuse 
-		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Mixed_AO.dds");			//creating DDS image texture for : Ambient Occlusion
-		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Roughness.dds");			//creating DDS image texture for : Roughness
-
-		//for the vintage car 
-		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/_Normal_DirectX.dds");				//creating DDS image texture for : Normal Map
-		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/_Base_Color.dds");					//creating DDS image texture for : Diffuse 
-		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/_Mixed_AO.dds");						//creating DDS image texture for : Ambient Occlusion
-		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/_Roughness.dds");					//creating DDS image texture for : Roughness
-
-
-		/**************
-		Creating Uniform Buffers 
+		Creating Uniform Buffers
 		**************/
 		uboBuffers.resize(nekographics::NKSwapChain::MAX_FRAMES_IN_FLIGHT);
 		for (int i = 0; i < uboBuffers.size(); i++) {
@@ -120,28 +85,35 @@ namespace nekographics {
 		}
 	}
 
+	gameApp::gameApp() {
+		/**************
+		Creating Descriptor Pool
+		**************/
+		globalPool =
+			NKDescriptorPool::Builder(m_vkDevice)
+			.setMaxSets(NKSwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)			
+			
+			//for the vintage textures 
+			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
+			.build();
+
+	}
+
 	gameApp::~gameApp() {}
 
-	void gameApp::loadGameObjects() {
+	void gameApp::loadTextures(const std::string& textures) {
+		m_vktexture.createTextureImageDDSMIPMAPS(textures);//creating the texture image 
+	}
 
-		/**************
-		Creating FBX model 
-		**************/
-		std::shared_ptr<NKModel> skullModel =
-			NKModel::createAssimpModelFromFile(m_vkDevice, "Models/FBX/Skull_textured.fbx");
-		auto skull = NkGameObject::createGameObject();
-		skull.model = skullModel;
-		skull.transform.translation = {  0.f, 0.f, 0.f };
-		skull.transform.scale = { 0.01, 0.01, 0.01f };
-		gameObjects.emplace(skull.getId(), std::move(skull));
-
-		std::shared_ptr<NKModel> vintageCarModel =
-			NKModel::createAssimpModelFromFile(m_vkDevice, "Models/FBX/_2_Vintage_Car_01_low.fbx");
-		auto vintageCar = NkGameObject::createGameObject();
-		vintageCar.model = vintageCarModel;
-		vintageCar.transform.translation = { 0.0f, 0.0f, -8.0f };
-		vintageCar.transform.scale = { 0.5f, 0.5f, 0.5f };
-		gameObjects.emplace(vintageCar.getId(), std::move(vintageCar));
+	void gameApp::loadPointLights(const int& numberOfLights) {
 
 		/**************
 		Creating point lights 
@@ -149,8 +121,24 @@ namespace nekographics {
 		std::vector<glm::vec3> lightColors{
 			{1.f, 1.f, 1.f},
 			{1.f, .1f, .1f},
+			{0.f, 1.f, .1f},
+			{0.f, .1f, 1.1f},
 		};
 
+		//sanity check for the number of lights 
+		if (numberOfLights > MAX_NUM_LIGHTS) {
+			lightColors.resize(MAX_NUM_LIGHTS);//set it to the max 
+		}else {
+			lightColors.resize(numberOfLights);
+		}
+
+		if (numberOfLights <= 0) {
+			lightColors.resize(MIN_NUM_LIGHTS);
+		}
+
+		/**************
+		Setting the lights initial translation 
+		**************/
 		for (int i = 0; i < lightColors.size(); i++) {
 			auto pointLight = NkGameObject::makePointLight(1.f);
 			pointLight.color = lightColors[i];

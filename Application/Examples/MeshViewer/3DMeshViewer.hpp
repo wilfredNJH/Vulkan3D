@@ -40,7 +40,9 @@ namespace nekographics {
 		gameApp(const gameApp&) = delete;
 		gameApp& operator=(const gameApp&) = delete;
 
-		void loadGameObjects();//loads the game objects
+		void pipelineLayout();//setting the pipeline instance 
+		void loadTextures(const std::string& textures);//loading the texture 
+		void loadPointLights(const int& numberOfLights = 1);//loads the game objects
 		void draw(NKCamera& camera, SimpleRenderSystem& renderer, PointLightSystem& pointLightRenderer, FrameInfo& frameInfo,VkCommandBuffer& commandBuffer);//draw call
 
 		VkWindow m_window{ WIDTH,HEIGHT };
