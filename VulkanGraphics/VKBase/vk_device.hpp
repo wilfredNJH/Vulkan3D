@@ -25,11 +25,7 @@ namespace nekographics {
 
     class NKDevice {
     public:
-#ifdef NDEBUG
-        const bool enableValidationLayers = false;
-#else
         const bool enableValidationLayers = true;
-#endif
 
         NKDevice(VkWindow& window);
         ~NKDevice();
