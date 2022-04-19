@@ -38,6 +38,12 @@ namespace nekographics {
 			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
 			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
 			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)			
+			
+			//for the vintage textures 
+			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
 			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
 			.build();
 
@@ -47,10 +53,17 @@ namespace nekographics {
 		/**************
 		Creating Textures
 		**************/
+		//for the skull
 		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Normal_OpenGL.dds");		//creating DDS image texture for : Normal Map
 		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Base_Color.dds");			//creating DDS image texture for : Diffuse 
 		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Mixed_AO.dds");			//creating DDS image texture for : Ambient Occlusion
 		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/TD_Checker_Roughness.dds");			//creating DDS image texture for : Roughness
+
+		//for the vintage car 
+		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/_Normal_DirectX.dds");				//creating DDS image texture for : Normal Map
+		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/_Base_Color.dds");					//creating DDS image texture for : Diffuse 
+		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/_Mixed_AO.dds");						//creating DDS image texture for : Ambient Occlusion
+		m_vktexture.createTextureImageDDSMIPMAPS("Textures/dds/_Roughness.dds");					//creating DDS image texture for : Roughness
 
 
 		/**************
@@ -72,6 +85,7 @@ namespace nekographics {
 		**************/
 		NKDescriptorSetLayout::Builder tmpBuilder = NKDescriptorSetLayout::Builder(m_vkDevice);//temporary builder 
 		tmpBuilder.addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL_GRAPHICS);//for the UBO 
+
 		//adding in the textures to the descriptor sets 
 		for (int i = 1; i < m_vktexture.textureImageVec.size() + 1; ++i) {
 			tmpBuilder.addBinding(i, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_ALL_GRAPHICS);
@@ -79,7 +93,7 @@ namespace nekographics {
 		globalSetLayout = tmpBuilder.build();//building the set layout 
 
 		/**************
-		Creating Descriptor Setss
+		Creating Descriptor Sets
 		**************/
 		globalDescriptorSets.resize(nekographics::NKSwapChain::MAX_FRAMES_IN_FLIGHT);
 		for (int i = 0; i < globalDescriptorSets.size(); i++) {
@@ -109,6 +123,7 @@ namespace nekographics {
 	gameApp::~gameApp() {}
 
 	void gameApp::loadGameObjects() {
+
 		/**************
 		Creating FBX model 
 		**************/

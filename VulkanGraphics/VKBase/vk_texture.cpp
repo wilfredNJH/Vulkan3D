@@ -224,18 +224,6 @@ namespace nekographics {
 			vkFreeMemory(m_vkDevice.device(), x, nullptr);
 		}
 
-		//for (auto& x : textureImageVec) {
-		//	vkDestroyImage(m_vkDevice.device(), x, nullptr);
-		//}
-		//for (auto& x : textureImageMemoryVec) {
-		//	vkFreeMemory(m_vkDevice.device(), x, nullptr);
-		//}
-		//for (auto& x : textureSamplerVec) {
-		//	vkDestroySampler(m_vkDevice.device(), x, nullptr);
-		//}
-		//for (auto& x : textureImageViewVec) {
-		//	vkDestroyImageView(m_vkDevice.device(), x, nullptr);
-		//}
 	}
 
 	void NKTexture::createTextureImageDDS(const std::string& texturePath) {
