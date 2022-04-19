@@ -127,7 +127,6 @@ namespace nekographics {
 		/**************
 		Creating FBX model 
 		**************/
-		
 		std::shared_ptr<NKModel> skullModel =
 			NKModel::createAssimpModelFromFile(m_vkDevice, "Models/FBX/Skull_textured.fbx");
 		auto skull = NkGameObject::createGameObject();
@@ -145,52 +144,8 @@ namespace nekographics {
 		gameObjects.emplace(vintageCar.getId(), std::move(vintageCar));
 
 		/**************
-		Creating Mesh
+		Creating point lights 
 		**************/
-		
-		//auto Mesh =  //xprim_geom::uvsphere::Generate( 30, 30, 2, 1 ); glm::vec2 UVScale{4,4};
-		//	xprim_geom::capsule::Generate(30, 30, 1, 4); glm::vec2 UVScale{ 3,3 };
-		//	//xprim_geom::cube::Generate(4, 4, 4, 4, xprim_geom::float3{ 1,1,1 }); glm::vec2 UVScale{ 1,1 };
-		//std::shared_ptr<NKModel> customModel =
-		//	NKModel::processMesh(m_vkDevice, Mesh);
-		//auto customMesh = NkGameObject::createGameObject();
-		//customMesh.model = customModel;
-		//customMesh.transform.translation = { -3.f, 0.f, 0.f };
-		//customMesh.transform.scale = { 0.5, 0.5, 0.5f };
-		//gameObjects.emplace(customMesh.getId(), std::move(customMesh));
-		
-
-		/**************
-		Creating OBJ model
-		**************/
-		/*
-		std::shared_ptr<NKModel> lveModelCubeObj =
-			NKModel::createModelFromFile(m_vkDevice, "Models/OBJ/cube.obj");
-		auto flatVase = NkGameObject::createGameObject();
-		flatVase.model = lveModelCubeObj;
-		flatVase.transform.translation = { 0.f, 0.f, 0.f };
-		flatVase.transform.scale = { 0.5, 0.5, 0.5f };
-		gameObjects.emplace(flatVase.getId(), std::move(flatVase));
-		*/
-		
-		/*
-		lveModel = NKModel::createModelFromFile(m_vkDevice, "Models/OBJ/smooth_vase.obj");
-		auto smoothVase = NkGameObject::createGameObject();
-		smoothVase.model = lveModel;
-		smoothVase.transform.translation = { .5f, .5f, 0.f };
-		smoothVase.transform.scale = { 3.f, 1.5f, 3.f };
-		gameObjects.emplace(smoothVase.getId(), std::move(smoothVase));
-		*/
-
-		/*
-		lveModel = NKModel::createModelFromFile(m_vkDevice, "Models/OBJ/quad.obj");
-		auto floor = NkGameObject::createGameObject();
-		floor.model = lveModel;
-		floor.transform.translation = { 0.f, 1.f, 0.f };
-		floor.transform.scale = { 3.f, 1.f, 3.f };
-		gameObjects.emplace(floor.getId(), std::move(floor));
-		*/
-
 		std::vector<glm::vec3> lightColors{
 			{1.f, 1.f, 1.f},
 			{1.f, .1f, .1f},

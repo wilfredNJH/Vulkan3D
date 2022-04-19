@@ -9,49 +9,49 @@ layout (location = 4) in mat3 outT2W;
 layout (location = 0) out vec4 outFragColor;
 
 struct PointLight {
-  vec4 position; // ignore w
-  vec4 color; // w is intensity
+  vec4 position;                                                    // ignore w
+  vec4 color;                                                       // w is intensity
 };
 
+//global ubo 
 layout(set = 0, binding = 0) uniform GlobalUbo {
-  mat4 projection;
-  mat4 view;
-  vec4 ambientLightColor; // w is intensity
-  vec4 cameraEyePos;//position of the camera 
-  PointLight pointLights[10];
-  int numLights;
-} ubo;
+  mat4 projection;                                                                                // projection matrix                                                               
+  mat4 view;                                                                                      // view matrix       
+  vec4 ambientLightColor;                                                                         // w is intensity                              
+  vec4 cameraEyePos;                                                                              // position of the camera               
+  PointLight pointLights[10];                                                                     // point light data                        
+  int numLights;                                                                                  // number of lights           
+} ubo;                                                                                            
 
-layout(set = 0, binding = 5) uniform sampler2D SamplerNormalMap;		// [INPUT_TEXTURE_NORMAL]
-layout(set = 0, binding = 6) uniform sampler2D SamplerDiffuseMap;		// [INPUT_TEXTURE_DIFFUSE]
-layout(set = 0, binding = 7) uniform sampler2D SamplerAOMap;			  // [INPUT_TEXTURE_AO]
-layout(set = 0, binding = 8) uniform sampler2D SamplerRoughnessMap;	// [INPUT_TEXTURE_ROUGHNESS]
+layout(set = 0, binding = 5) uniform sampler2D SamplerNormalMap;		                              // [INPUT_TEXTURE_NORMAL]
+layout(set = 0, binding = 6) uniform sampler2D SamplerDiffuseMap;		                              // [INPUT_TEXTURE_DIFFUSE]
+layout(set = 0, binding = 7) uniform sampler2D SamplerAOMap;			                                // [INPUT_TEXTURE_AO]
+layout(set = 0, binding = 8) uniform sampler2D SamplerRoughnessMap;	                              // [INPUT_TEXTURE_ROUGHNESS]
 
-layout(push_constant) uniform Push {
-  mat4 modelMatrix;
-  mat4 normalMatrix;
-} push;
+layout(push_constant) uniform Push {      
+  mat4 modelMatrix;     
+  mat4 normalMatrix;      
+} push;     
 
-void main() {
+void main() {     
 
-	vec3 Normal;
-	Normal.xy	= (texture(SamplerNormalMap, fragTexCoord).gr * 2.0) - 1.0;// For BC5 it used (rg)
-	
-	// Derive the final element (all in Tangent space)
-  // x^2 + y^2 + z^2 = 1
-  // z^2             = 1 - x^2 - y^2
-  // z               = sqrt( 1 - (x^2 + y^2) )
-	Normal.z =  sqrt(1.0 - dot(Normal.xy, Normal.xy));
-	Normal = normalize(outT2W * Normal);// Transform the normal to from tangent space to world space
-  Normal.y = -Normal.y;//inverting the normal
+	vec3 Normal;      
+	Normal.xy	= (texture(SamplerNormalMap, fragTexCoord).gr * 2.0) - 1.0;                           // For BC5 it used (rg)
+
+	// Derive the final element (all in Tangent space)      
+  // x^2 + y^2 + z^2 = 1      
+  // z^2             = 1 - x^2 - y^2      
+  // z               = sqrt( 1 - (x^2 + y^2) )      
+	Normal.z =  sqrt(1.0 - dot(Normal.xy, Normal.xy));      
+	Normal = normalize(outT2W * Normal);                                                            // Transform the normal to from tangent space to world space
+  Normal.y = -Normal.y;                                                                           //inverting the normal
 
 	// Different techniques to do Lighting
   vec4 worldEyeSpacePos = ubo.cameraEyePos;
 
   // Load Textures
   const vec3  Albedo        = texture(SamplerDiffuseMap, fragTexCoord).rgb;
-  const float Shininess     = mix( 1, 100, 1 - texture( SamplerRoughnessMap, fragTexCoord).r ); //80 preset 
-  const vec3  SpecularColor = vec3(1);
+  const float Shininess     = mix( 1, 100, 1 - texture( SamplerRoughnessMap, fragTexCoord).r );   //80 preset 
   const vec3  SamplerAOColor = texture(SamplerAOMap, fragTexCoord).rgb;
 
 	// Different techniques to do Lighting

@@ -14,15 +14,15 @@ layout(location = 3) out vec2 fragTexCoord;
 layout(location = 4) out mat3 outT2W;
 
 struct PointLight {
-  vec4 position; // ignore w
-  vec4 color; // w is intensity
+  vec4 position;                                                    // ignore w
+  vec4 color;                                                       // w is intensity
 };
 
 layout(set = 0, binding = 0) uniform GlobalUbo {
   mat4 projection;
   mat4 view;
-  vec4 ambientLightColor; // w is intensity
-  vec4 cameraEyePos;//position of the camera 
+  vec4 ambientLightColor;                                           // w is intensity
+  vec4 cameraEyePos;                                                //position of the camera 
   PointLight pointLights[10];
   int numLights;
 } ubo;
