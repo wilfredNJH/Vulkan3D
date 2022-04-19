@@ -90,13 +90,8 @@ int homeworkCube() {
 			}
 		}
 
-		//check light following camera
-		if (KeyManager.isKeyTriggered(VK_SPACE)) {
-			pointLightSystem.mFollowCamera = !pointLightSystem.mFollowCamera;//toggle between states
-			if (!pointLightSystem.mFollowCamera) {
-				pointLightSystem.mStaticCameraPos = {viewerObject.transform.translation,1.f};
-			}
-		}
+		//update light with input 
+		pointLightSystem.inputUpdate(viewerObject);
 		
 		//check for window update
 		if (!application.m_window.Update()) {

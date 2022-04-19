@@ -90,6 +90,16 @@ namespace nekographics {
         ubo.numLights = lightIndex;
     }
 
+    void PointLightSystem::inputUpdate(NkGameObject& viewerObject) {
+        //check light following camera
+        if (KeyManager.isKeyTriggered(VK_SPACE)) {
+            mFollowCamera = !mFollowCamera;//toggle between states
+            if (!mFollowCamera) {
+                mStaticCameraPos = { viewerObject.transform.translation,1.f };
+            }
+        }
+    }
+
     void PointLightSystem::createPipeline(VkRenderPass renderPass) {
         assert(pipelineLayout != nullptr && "Cannot create pipeline before pipeline layout");
 

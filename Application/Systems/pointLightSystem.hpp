@@ -21,6 +21,7 @@ namespace nekographics {
         PointLightSystem& operator=(const PointLightSystem&) = delete;
 
         void update(FrameInfo& frameInfo, GlobalUbo& ubo);
+        void inputUpdate(NkGameObject& viewerObject);//updating the point light based on the input 
         void render(FrameInfo& frameInfo);
 
         bool mFollowCamera = true;//if light is following camera 

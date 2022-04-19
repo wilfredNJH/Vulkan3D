@@ -28,6 +28,7 @@ namespace nekographics {
 
 		std::unique_ptr<NKPipeline> m_systemPipeline;//pointer to the unique pipeline 
 		std::unique_ptr<NKPipeline> m_systemPipelineCar;//pointer to the unique pipeline 
+
 		VkPipelineLayout pipelineLayout;//the pipeline layout 
 	};
 }  // namespace lve
