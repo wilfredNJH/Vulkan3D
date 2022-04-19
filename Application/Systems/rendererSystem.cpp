@@ -76,15 +76,15 @@ namespace nekographics {
         //making the pipeline base off the shader file for the skull 
         m_systemPipeline = std::make_unique<NKPipeline>(
             m_systemDevice,
-            "Shaders/simple_shaderSkull.vert.spv",
-            "Shaders/simple_shaderSkull.frag.spv",
+            "Shaders/shaderSkull.vert.spv",
+            "Shaders/shaderSkull.frag.spv",
             pipelineConfig);
 
         //making the pipeline base off the shader file for the car
         m_systemPipelineCar = std::make_unique<NKPipeline>(
             m_systemDevice,
-            "Shaders/simple_shaderCar.vert.spv",
-            "Shaders/simple_shaderCar.frag.spv",
+            "Shaders/shaderCar.vert.spv",
+            "Shaders/shaderCar.frag.spv",
             pipelineConfig);
     }
 

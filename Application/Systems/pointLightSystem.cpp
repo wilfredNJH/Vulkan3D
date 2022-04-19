@@ -111,8 +111,8 @@ namespace nekographics {
         pipelineConfig.pipelineLayout = pipelineLayout;
         m_Pipeline = std::make_unique<NKPipeline>(
             m_Device,
-            "Shaders/point_light.vert.spv",
-            "Shaders/point_light.frag.spv",
+            "Shaders/pointLight.vert.spv",
+            "Shaders/pointLight.frag.spv",
             pipelineConfig);
     }
 
