@@ -1,4 +1,5 @@
 
+//includes
 #include "vk_device.hpp"
 
 // std headers
@@ -16,10 +17,11 @@ namespace nekographics {
         VkDebugUtilsMessageTypeFlagsEXT messageType,
         const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
         void* pUserData) {
-        std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
 
+        //std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
 
         UNREFERENCED_PARAMETER(messageSeverity);
+        UNREFERENCED_PARAMETER(pCallbackData);
         UNREFERENCED_PARAMETER(messageType);
         UNREFERENCED_PARAMETER(pUserData);
 
@@ -78,13 +80,21 @@ namespace nekographics {
     }
 
     void NKDevice::createInstance() {
+
+        /*************
+        toggling for the renderdoc& validation layer
+        *************/
+        if (enableRenderDoc) {
+            validationLayers.emplace_back("VK_LAYER_RENDERDOC_Capture");
+        }
+
         if (enableValidationLayers && !checkValidationLayerSupport()) {
             throw std::runtime_error("validation layers requested, but not available!");
         }
 
         VkApplicationInfo appInfo = {};
         appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-        appInfo.pApplicationName = "LittleVulkanEngine App";
+        appInfo.pApplicationName = "NekoEngine Vulkan App";
         appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
         appInfo.pEngineName = "No Engine";
         appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
@@ -253,6 +263,7 @@ namespace nekographics {
         std::vector<VkLayerProperties> availableLayers(layerCount);
         vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
+        //loop through all the validation layers and check if the layer is found
         for (const char* layerName : validationLayers) {
             bool layerFound = false;
 
@@ -292,17 +303,17 @@ namespace nekographics {
         std::vector<VkExtensionProperties> extensions(extensionCount);
         vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
 
-        std::cout << "available extensions:" << std::endl;
+        //available extensions 
         std::unordered_set<std::string> available;
         for (const auto& extension : extensions) {
-            std::cout << "\t" << extension.extensionName << std::endl;
+            //std::cout << "\t" << extension.extensionName << std::endl;
             available.insert(extension.extensionName);
         }
 
-        std::cout << "required extensions:" << std::endl;
+        //require extensions
         auto requiredExtensions = getRequiredExtensions();
         for (const auto& required : requiredExtensions) {
-            std::cout << "\t" << required << std::endl;
+            //std::cout << "\t" << required << std::endl;
             if (available.find(required) == available.end()) {
                 throw std::runtime_error("Missing required glfw extension");
             }
@@ -507,6 +518,7 @@ namespace nekographics {
         auto Width = width;
         auto Height = height;
 
+        //copying the mip map data 
         for (std::uint32_t i = 0; i < mipCount; i++)
         {
             BufferCopyRegions.emplace_back

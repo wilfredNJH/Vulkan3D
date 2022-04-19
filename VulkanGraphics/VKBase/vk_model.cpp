@@ -401,7 +401,7 @@ namespace nekographics {
     void NKModel::AssimpBuilder::loadAssimpModel(const std::string& filepath) {
         Assimp::Importer importer;
         const aiScene* scene = importer.ReadFile(filepath.c_str(), 
-            aiProcess_Triangulate                // Make sure we get triangles rather than nvert polygons
+            aiProcess_Triangulate                  // Make sure we get triangles rather than nvert polygons
             | aiProcess_LimitBoneWeights           // 4 weights for skin model max
             | aiProcess_GenUVCoords                // Convert any type of mapping to uv mapping
             | aiProcess_TransformUVCoords          // preprocess UV transformations (scaling, translation ...)

@@ -103,7 +103,11 @@ namespace nekographics {
         VkQueue graphicsQueue_;
         VkQueue presentQueue_;
 
-        std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation", "VK_LAYER_RENDERDOC_Capture"};
+
+        //toggle to enable render doc & validation layer 
+        bool enableRenderDoc = true;
+
+        std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation"};
         std::vector<const char*> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME};
     };
 

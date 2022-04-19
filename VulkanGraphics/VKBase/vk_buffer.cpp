@@ -1,9 +1,4 @@
-/*
- * Encapsulates a vulkan buffer
- *
- * Initially based off VulkanBuffer by Sascha Willems -
- * https://github.com/SaschaWillems/Vulkan/blob/master/base/VulkanBuffer.h
- */
+
 
 #include "vk_buffer.hpp"
 
@@ -199,4 +194,4 @@ namespace nekographics {
         return invalidate(alignmentSize, index * alignmentSize);
     }
 
-}  // namespace lve
+}  
