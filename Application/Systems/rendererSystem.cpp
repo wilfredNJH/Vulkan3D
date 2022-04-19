@@ -88,12 +88,20 @@ namespace nekographics {
             "Shaders/simple_shaderSkull.vert.spv",
             "Shaders/simple_shaderSkull.frag.spv",
             pipelineConfig);
+
+        //making the pipeline base off the shader file for the car
+        m_systemPipelineCar = std::make_unique<NKPipeline>(
+            m_systemDevice,
+            "Shaders/simple_shaderCar.vert.spv",
+            "Shaders/simple_shaderCar.frag.spv",
+            pipelineConfig);
     }
 
     void SimpleRenderSystem::renderGameObjects(
         FrameInfo& frameInfo) {
 
-        m_systemPipeline->bind(frameInfo.commandBuffer);//binding the pipeline
+        ////check the frame info for the type of object you are rendering 
+        //m_systemPipeline->bind(frameInfo.commandBuffer);//binding the pipeline
 
         vkCmdBindDescriptorSets(
             frameInfo.commandBuffer,
@@ -108,6 +116,15 @@ namespace nekographics {
         for (auto& kv : frameInfo.gameObjects) {
             auto& obj = kv.second;
             if (obj.model == nullptr) continue;
+            
+            //check which model it is to bind the respective shader 
+            if (kv.first == 0) {
+                m_systemPipeline->bind(frameInfo.commandBuffer);//binding the pipeline
+            }
+            else if (kv.first == 1) {
+                m_systemPipelineCar->bind(frameInfo.commandBuffer);//binding the pipeline
+            }
+
             SimplePushConstantData push{};//creating a simple constant data 
             //initialize the push constant data 
             push.modelMatrix = obj.transform.mat4();
