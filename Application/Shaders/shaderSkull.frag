@@ -51,10 +51,9 @@ void main() {
   vec4 worldEyeSpacePos = ubo.cameraEyePos;
 
   // Load Textures
-  const vec3  Albedo        = texture(SamplerDiffuseMap, fragTexCoord).rgb;
-  const float Shininess     = mix( 1, 100, 1 - texture( SamplerRoughnessMap, fragTexCoord).r ); //80 preset 
-  const vec3  SpecularColor = vec3(1);
-  const vec3  SamplerAOColor = texture(SamplerAOMap, fragTexCoord).rgb;
+  const vec3  Albedo          = texture(SamplerDiffuseMap, fragTexCoord).rgb;
+  const float Shininess       = mix( 1, 100, 1 - texture( SamplerRoughnessMap, fragTexCoord).r ); //80 preset 
+  const vec3  SamplerAOColor  = texture(SamplerAOMap, fragTexCoord).rgb;
 
 	// Different techniques to do Lighting
   vec3 TotalLight     = ubo.ambientLightColor.xyz * ubo.ambientLightColor.w;
@@ -63,7 +62,7 @@ void main() {
     PointLight light = ubo.pointLights[i];
     const vec3  directionToLight  = light.position.xyz - fragPosWorld;
     const vec3  directionToLightN = normalize(directionToLight);
-    const float attenuation       = 1.0;//1.0 / dot(directionToLight, directionToLight); // distance squared
+    const float attenuation       = max(1.0 / dot(directionToLight, directionToLight),0.3);  // distance squared
     const float cosAngIncidence   = max(dot(Normal, directionToLightN), 0);
     const vec3  intensity         = light.color.xyz * light.color.w * attenuation;
 

@@ -63,7 +63,7 @@ void main() {
     PointLight light = ubo.pointLights[i];
     const vec3  directionToLight  = light.position.xyz - fragPosWorld;
     const vec3  directionToLightN = normalize(directionToLight);
-    const float attenuation       = 1.0;//1.0 / dot(directionToLight, directionToLight); // distance squared
+    const float attenuation       = max(1.0 / dot(directionToLight, directionToLight),0.3); // distance squared
     const float cosAngIncidence   = max(dot(Normal, directionToLightN), 0);
     const vec3  intensity         = light.color.xyz * light.color.w * attenuation;
 
