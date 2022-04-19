@@ -3,6 +3,9 @@
 
 'M' - toggle between first person & third person view 
 
+'1' - view skull model 
+'2' - view car model 
+
 **THIRD PERSON VIEW**
 'MOUSE RIGHT' - pan camera 
 

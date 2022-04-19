@@ -150,7 +150,7 @@ namespace nekographics {
         /*********
         Rotating the Cube Object
         ***********/
-        glm::vec3 resultingVector = currentGameObject.translation - camera.transform.translation;//vector to game object
+        glm::vec3 resultingVector = glm::vec3(0.f,0.f,0.f) - camera.transform.translation;//vector to game object
 
 
         const glm::vec3 forwardDir{ resultingVector };
@@ -162,7 +162,7 @@ namespace nekographics {
         if (MouseManager.getMouseScroll() > 0) {
             const float clampDistance = 0.3f;
             //clamp if too near to the box 
-            if (glm::distance(currentGameObject.translation, camera.transform.translation) <= 3.f) {
+            if (glm::distance(glm::vec3(0.f,0.f,0.f), camera.transform.translation) <= 3.f) {
                 moveDir = { 0.f,0.f,0.f };
             }
             else {
