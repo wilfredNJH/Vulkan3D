@@ -128,8 +128,19 @@ namespace nekographics {
                 0,
                 sizeof(SimplePushConstantData),
                 &push);
-            obj.model->bind(frameInfo.commandBuffer);//binding the pipeline 
-            obj.model->draw(frameInfo.commandBuffer);//drawing 
+
+            //check if there are child models 
+            if (obj.model->getHasChildModels()) {
+                //loop through all the child models 
+                for (auto& childModels : obj.model->getChildModels()) {
+                    childModels->bind(frameInfo.commandBuffer);//binding the pipeline 
+                    childModels->draw(frameInfo.commandBuffer);//draw all the child models 
+                }
+            }
+            else {
+                obj.model->bind(frameInfo.commandBuffer);//binding the pipeline 
+                obj.model->draw(frameInfo.commandBuffer);//drawing 
+            }
         }
     }
 

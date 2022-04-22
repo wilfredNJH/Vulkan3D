@@ -86,6 +86,10 @@ namespace nekographics {
         void bind(VkCommandBuffer commandBuffer);
         void draw(VkCommandBuffer commandBuffer);
 
+        //getting child models 
+        bool getHasChildModels() const { return hasChildModels; }
+        std::vector<std::unique_ptr<NKModel>>& getChildModels() { return childModels; }
+
     private:
         void createVertexBuffers(const std::vector<Vertex>& vertices);
         void createIndexBuffers(const std::vector<uint32_t>& indices);
@@ -100,5 +104,9 @@ namespace nekographics {
         bool hasIndexBuffer = false;
         std::unique_ptr<NKBuffer> indexBuffer;
         uint32_t indexCount;
+
+
+        bool hasChildModels = false;
+        std::vector<std::unique_ptr<NKModel>> childModels;//stores all the child models 
     };
 }

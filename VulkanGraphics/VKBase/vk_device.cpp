@@ -18,10 +18,9 @@ namespace nekographics {
         const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
         void* pUserData) {
 
-        //std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
+        std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
 
         UNREFERENCED_PARAMETER(messageSeverity);
-        UNREFERENCED_PARAMETER(pCallbackData);
         UNREFERENCED_PARAMETER(messageType);
         UNREFERENCED_PARAMETER(pUserData);
 
@@ -306,14 +305,14 @@ namespace nekographics {
         //available extensions 
         std::unordered_set<std::string> available;
         for (const auto& extension : extensions) {
-            //std::cout << "\t" << extension.extensionName << std::endl;
+            std::cout << "\t" << extension.extensionName << std::endl;
             available.insert(extension.extensionName);
         }
 
         //require extensions
         auto requiredExtensions = getRequiredExtensions();
         for (const auto& required : requiredExtensions) {
-            //std::cout << "\t" << required << std::endl;
+            std::cout << "\t" << required << std::endl;
             if (available.find(required) == available.end()) {
                 throw std::runtime_error("Missing required glfw extension");
             }

@@ -34,8 +34,24 @@ namespace nekographics {
     }
 
     NKModel::NKModel(NKDevice& device, const NKModel::AssimpBuilder& builder) : m_modelDevice{ device } {
-        createVertexBuffers(builder.meshes.data()->vertices);
-        createIndexBuffers(builder.meshes.data()->indices);
+        //createVertexBuffers(builder.meshes.data()->vertices);
+        //createIndexBuffers(builder.meshes.data()->indices);
+
+        if (builder.meshes.size() > 1) {
+            hasChildModels = true;
+            for (uint32_t i = 0; i < builder.meshes.size(); ++i) {
+                Builder builderTmp{};
+                //copying the builder 
+                builderTmp.vertices = builder.meshes[i].vertices;
+                builderTmp.indices = builder.meshes[i].indices;
+                childModels.emplace_back(std::make_unique<NKModel>(device, builderTmp)); //emplace back the child models using the original nk model builder 
+            }
+        }
+        else {
+            createVertexBuffers(builder.meshes.data()->vertices);
+            createIndexBuffers(builder.meshes.data()->indices);
+        }
+
     }
 
     NKModel::~NKModel() {
