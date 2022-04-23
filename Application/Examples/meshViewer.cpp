@@ -170,6 +170,7 @@ int meshViewer() {
 					nekographics::GlobalUbo ubo{};
 					ubo.projection = camera.getProjection();
 					ubo.view = camera.getView();
+					ubo.inverseView = camera.getInverseView();
 					ubo.cameraEyePos = { viewerObject.transform.translation ,1.f };
 
 					pointLightSystem.update(frameInfo, ubo);//point light system update 

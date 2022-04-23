@@ -16,6 +16,7 @@ struct PointLight {
 layout(set = 0, binding = 0) uniform GlobalUbo {
   mat4 projection;
   mat4 view;
+  mat4 invView;                                                                                          // stores the inverse view matrix 
   vec4 ambientLightColor; // w is intensity
   vec4 cameraEyePos;                                                                                     //position of the camera 
   PointLight pointLights[10];

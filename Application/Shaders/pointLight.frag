@@ -12,6 +12,7 @@ struct PointLight {
 layout(set = 0, binding = 0) uniform GlobalUbo {
   mat4 projection;                    // stores the projection matrix 
   mat4 view;                          // stores the view matrix 
+  mat4 invView;                       // stores the inverse view matrix 
   vec4 ambientLightColor;             // w is intensity
   vec4 cameraEyePos;                  // position of the camera 
   PointLight pointLights[10];         // stores all the point light data 

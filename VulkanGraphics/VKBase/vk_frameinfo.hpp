@@ -18,6 +18,7 @@ namespace nekographics {
 	struct GlobalUbo {
 		glm::mat4 projection{ 1.f };
 		glm::mat4 view{ 1.f };
+		glm::mat4 inverseView{ 1.f };//inverse view matrix to easily get the camera pos 
 		glm::vec4 ambientLightColor{ 1.f, 1.f, 1.f, .02f };  // w is intensity
 		glm::vec4 cameraEyePos{ 0.f,0.f,0.f,1.f};
 		PointLight pointLights[MAX_LIGHTS];
