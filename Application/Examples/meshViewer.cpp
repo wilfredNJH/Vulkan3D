@@ -69,6 +69,20 @@ int meshViewer() {
 	vintageCar.transform.scale = { 0.5f, 0.5f, 0.5f };
 	application.gameObjects.emplace(vintageCar.getId(), std::move(vintageCar));
 
+	/**************
+	Creating Mesh
+	**************/
+	auto floorMesh =  //xprim_geom::uvsphere::Generate( 30, 30, 2, 1 ); glm::vec2 UVScale{4,4};
+		//xprim_geom::capsule::Generate(30, 30, 1, 4); glm::vec2 UVScale{ 3,3 };
+		xprim_geom::cube::Generate(4, 4, 4, 4, xprim_geom::float3{ 1,1,1 }); glm::vec2 UVScale{ 1,1 };
+	std::shared_ptr<nekographics::NKModel> customModel =
+		nekographics::NKModel::processMesh(application.m_vkDevice, floorMesh);
+	auto customFloorMesh = nekographics::NkGameObject::createGameObject();
+	customFloorMesh.model = customModel;
+	customFloorMesh.transform.translation = { 0.f, 2.f, 0.f };
+	customFloorMesh.transform.scale = { 20.0, 0.1f, 20.f };
+	application.gameObjects.emplace(customFloorMesh.getId(), std::move(customFloorMesh));
+
 	application.loadPointLights(2);//loading point lights
 
 	/***********
