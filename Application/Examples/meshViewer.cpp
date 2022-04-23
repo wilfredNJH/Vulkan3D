@@ -55,7 +55,7 @@ int meshViewer() {
 	/**************
 	Creating FBX model
 	**************/
-	std::shared_ptr<nekographics::NKModel> skullModel = nekographics::NKModel::createAssimpModelFromFile(application.m_vkDevice, "Models/FBX/Wolf.fbx"); // skull model
+	std::shared_ptr<nekographics::NKModel> skullModel = nekographics::NKModel::createAssimpModelFromFile(application.m_vkDevice, "Models/FBX/Skull_textured.fbx"); // skull model
 	auto skull = nekographics::NkGameObject::createGameObject();
 	skull.model = skullModel;
 	skull.transform.translation = { 0.f, 0.f, 0.f };
