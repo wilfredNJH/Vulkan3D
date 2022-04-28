@@ -14,6 +14,9 @@
 #include "InputMgr.hpp"
 #include <iostream>
 
+/***********
+Win32 Call Back function for processing inputs 
+************/
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     switch (message) {
     case WM_SIZE:
@@ -37,7 +40,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     return 0;
 }
 
-
+/***********
+Init for Vulkan Window 
+************/
 VkWindow::VkWindow(int width,int height) : mSizeChanged(false), mCanRender(true) , mCloseWindow(false){
     wInstance = GetModuleHandle(nullptr);
 
@@ -74,7 +79,9 @@ VkWindow::VkWindow(int width,int height) : mSizeChanged(false), mCanRender(true)
     }
 }
 
-
+/***********
+Creating vulkan window surface 
+************/
 void VkWindow::CreateWindowSurface(VkInstance instance, VkSurfaceKHR* surface) {
     VkWin32SurfaceCreateInfoKHR surfaceCreateInfo{};
     surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
@@ -86,6 +93,9 @@ void VkWindow::CreateWindowSurface(VkInstance instance, VkSurfaceKHR* surface) {
     }
 }
 
+/***********
+Window update loop 
+************/
 bool VkWindow::Update() {
     MouseManager.updateMousePosition_Relative(0.f, 0.f);//reseting the relative position 
 
@@ -109,6 +119,9 @@ bool VkWindow::Update() {
     }
 }
 
+/***********
+Show window 
+************/
 void VkWindow::showWindow() {
 
     //init showing the window 

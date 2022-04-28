@@ -107,12 +107,21 @@ namespace nekographics {
 
 	}
 
+	/***********
+	Destructor for application 
+	************/
 	gameApp::~gameApp() {}
 
+	/***********
+	loading the dds textures 
+	************/
 	void gameApp::loadTextures(const std::string& textures) {
 		m_vktexture.createTextureImageDDSMIPMAPS(textures);//creating the texture image 
 	}
 
+	/***********
+	Creating and setting the init transform of point lights 
+	************/
 	void gameApp::loadPointLights(const int& numberOfLights) {
 
 		/**************
@@ -151,6 +160,9 @@ namespace nekographics {
 		}
 	}
 
+	/***********
+	Application draw call 
+	************/
 	void gameApp::draw(NKCamera& camera, SimpleRenderSystem& renderer , PointLightSystem& pointLightRenderer,FrameInfo& frameInfo, VkCommandBuffer& commandBuffer) {
 		UNREFERENCED_PARAMETER(camera);
 
@@ -159,6 +171,6 @@ namespace nekographics {
 		renderer.renderGameObjects(frameInfo);
 		pointLightRenderer.render(frameInfo);
 		m_vkRenderer.endSwapChainRenderPass(commandBuffer);//end render pass
-		m_vkRenderer.endFrame();
+		m_vkRenderer.endFrame();//ending the render frame 
 	}
 }
