@@ -30,7 +30,7 @@ namespace nekographics {
     void NKSwapChain::init() {
         createSwapChain();
         createImageViews();
-        createRenderPass();
+        createRenderPass();//render pass discribes structure & format of a frame buffer object & attachment, sort of like a blue print 
         createDepthResources();
         createFramebuffers();
         createSyncObjects();
@@ -68,6 +68,7 @@ namespace nekographics {
     }
 
     VkResult NKSwapChain::acquireNextImage(uint32_t* imageIndex) {
+        //cpu will wait for the next command 
         vkWaitForFences(
             device.device(),
             1,

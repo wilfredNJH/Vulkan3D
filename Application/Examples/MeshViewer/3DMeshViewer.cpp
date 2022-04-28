@@ -171,6 +171,6 @@ namespace nekographics {
 		renderer.renderGameObjects(frameInfo);
 		pointLightRenderer.render(frameInfo);
 		m_vkRenderer.endSwapChainRenderPass(commandBuffer);//end render pass
-		m_vkRenderer.endFrame();
+		m_vkRenderer.endFrame();//ending the render frame 
 	}
 }

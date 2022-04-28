@@ -1,5 +1,12 @@
 #pragma once
 
+/*
+**Visualization of graphics pipeline**
+
+ input assembler -> vertex shader -> rasterization -> fragment shader -> color blending -> frame buffer 
+
+*/
+
 #include "vk_device.hpp"
 
 //std
