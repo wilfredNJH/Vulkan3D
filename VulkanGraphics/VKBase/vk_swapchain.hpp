@@ -75,6 +75,7 @@ namespace nekographics {
         VkRenderPass renderPass;
 
         std::vector<VkImage> depthImages;
+        std::vector<VkSampler> depthSampler;
         std::vector<VkDeviceMemory> depthImageMemorys;
         std::vector<VkImageView> depthImageViews;
         std::vector<VkImage> swapChainImages;

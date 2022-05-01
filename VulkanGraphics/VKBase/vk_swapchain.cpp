@@ -1,6 +1,6 @@
 #define NOMINMAX
+// includes 
 #include "vk_swapchain.hpp"
-
 
 // std
 #include <array>
@@ -10,6 +10,9 @@
 #include <limits>
 #include <set>
 #include <stdexcept>
+
+#define DEFAULT_SHADOWMAP_FILTER VK_FILTER_LINEAR
+#define DEPTH_FORMAT VK_FORMAT_D16_UNORM
 
 namespace nekographics {
 
@@ -48,6 +51,7 @@ namespace nekographics {
         }
 
         for (int i = 0; i < depthImages.size(); i++) {
+            vkDestroySampler(device.device(), depthSampler[i], nullptr);
             vkDestroyImageView(device.device(), depthImageViews[i], nullptr);
             vkDestroyImage(device.device(), depthImages[i], nullptr);
             vkFreeMemory(device.device(), depthImageMemorys[i], nullptr);
@@ -304,6 +308,21 @@ namespace nekographics {
         }
     }
 
+    // Returns if a given format support LINEAR filtering
+    VkBool32 formatIsFilterable(VkPhysicalDevice physicalDevice, VkFormat format, VkImageTiling tiling)
+    {
+        VkFormatProperties formatProps;
+        vkGetPhysicalDeviceFormatProperties(physicalDevice, format, &formatProps);
+
+        if (tiling == VK_IMAGE_TILING_OPTIMAL)
+            return formatProps.optimalTilingFeatures & VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT;
+
+        if (tiling == VK_IMAGE_TILING_LINEAR)
+            return formatProps.linearTilingFeatures & VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT;
+
+        return false;
+    }
+
     void NKSwapChain::createDepthResources() {
         VkFormat depthFormat = findDepthFormat();
         swapChainDepthFormat = depthFormat;
@@ -312,6 +331,7 @@ namespace nekographics {
         depthImages.resize(imageCount());
         depthImageMemorys.resize(imageCount());
         depthImageViews.resize(imageCount());
+        depthSampler.resize(imageCount());
 
         for (int i = 0; i < depthImages.size(); i++) {
             VkImageCreateInfo imageInfo{};
@@ -350,6 +370,30 @@ namespace nekographics {
             if (vkCreateImageView(device.device(), &viewInfo, nullptr, &depthImageViews[i]) != VK_SUCCESS) {
                 throw std::runtime_error("failed to create texture image view!");
             }
+
+            // Create sampler to sample from to depth attachment
+            // Used to sample in the fragment shader for shadowed rendering
+            VkFilter shadowmap_filter = formatIsFilterable(device.getPhysicalDevice(), DEPTH_FORMAT, VK_IMAGE_TILING_OPTIMAL) ?
+                DEFAULT_SHADOWMAP_FILTER :
+                VK_FILTER_NEAREST;
+            VkSamplerCreateInfo sampler{};
+            sampler.magFilter = shadowmap_filter;
+            sampler.minFilter = shadowmap_filter;
+            sampler.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+            sampler.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+            sampler.addressModeV = sampler.addressModeU;
+            sampler.addressModeW = sampler.addressModeU;
+            sampler.mipLodBias = 0.0f;
+            sampler.maxAnisotropy = 1.0f;
+            sampler.minLod = 0.0f;
+            sampler.maxLod = 1.0f;
+            sampler.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
+            sampler.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+
+            if (vkCreateSampler(device.device(), &sampler, nullptr, &depthSampler[i]) != VK_SUCCESS) {
+                throw std::runtime_error("failed to create texture sampler!");
+            }
+
         }
     }
 
