@@ -86,6 +86,20 @@ namespace nekographics {
             "Shaders/shaderCar.vert.spv",
             "Shaders/shaderCar.frag.spv",
             pipelineConfig);
+
+        // shadow generation pipeline 
+        m_shadowGenerationPipeline = std::make_unique<NKPipeline>(
+            m_systemDevice,
+            "Shaders/shadowmapping/shadowMapGeneration.vert.spv",
+            "Shaders/shadowmapping/shadowMapGeneration.frag.spv",
+            pipelineConfig);
+
+        // shadow generation pipeline 
+        m_shadowLightingPipeline = std::make_unique<NKPipeline>(
+            m_systemDevice,
+            "Shaders/shadowmapping/shadowMapLighting.vert.spv",
+            "Shaders/shadowmapping/shadowMapLighting.frag.spv",
+            pipelineConfig);
     }
 
     void SimpleRenderSystem::renderGameObjects(
