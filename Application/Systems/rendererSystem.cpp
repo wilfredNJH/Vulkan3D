@@ -81,11 +81,11 @@ namespace nekographics {
             pipelineConfig);
 
         //making the pipeline base off the shader file for the car
-        m_systemPipelineCar = std::make_unique<NKPipeline>(
-            m_systemDevice,
-            "Shaders/shaderCar.vert.spv",
-            "Shaders/shaderCar.frag.spv",
-            pipelineConfig);
+        //m_systemPipelineCar = std::make_unique<NKPipeline>(
+        //    m_systemDevice,
+        //    "Shaders/shaderCar.vert.spv",
+        //    "Shaders/shaderCar.frag.spv",
+        //    pipelineConfig);
 
         // shadow generation pipeline 
         m_shadowGenerationPipeline = std::make_unique<NKPipeline>(
@@ -126,9 +126,9 @@ namespace nekographics {
             if (kv.first == 0) {
                 m_systemPipeline->bind(frameInfo.commandBuffer);//binding the pipeline
             }
-            else if (kv.first == 1) {
-                m_systemPipelineCar->bind(frameInfo.commandBuffer);//binding the pipeline
-            }
+            //else if (kv.first == 1) {
+            //    m_systemPipelineCar->bind(frameInfo.commandBuffer);//binding the pipeline
+            //}
 
             SimplePushConstantData push{};//creating a simple constant data 
             //initialize the push constant data 

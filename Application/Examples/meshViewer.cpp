@@ -62,12 +62,12 @@ int meshViewer() {
 	skull.transform.scale = { 0.01, 0.01, 0.01f };
 	application.gameObjects.emplace(skull.getId(), std::move(skull));
 
-	std::shared_ptr<nekographics::NKModel> vintageCarModel = nekographics::NKModel::createAssimpModelFromFile(application.m_vkDevice, "Models/FBX/_2_Vintage_Car_01_low.fbx"); // car model 
-	auto vintageCar = nekographics::NkGameObject::createGameObject();
-	vintageCar.model = vintageCarModel;
-	vintageCar.transform.translation = { 0.0f, 0.0f, -8.0f };
-	vintageCar.transform.scale = { 0.5f, 0.5f, 0.5f };
-	application.gameObjects.emplace(vintageCar.getId(), std::move(vintageCar));
+	//std::shared_ptr<nekographics::NKModel> vintageCarModel = nekographics::NKModel::createAssimpModelFromFile(application.m_vkDevice, "Models/FBX/_2_Vintage_Car_01_low.fbx"); // car model 
+	//auto vintageCar = nekographics::NkGameObject::createGameObject();
+	//vintageCar.model = vintageCarModel;
+	//vintageCar.transform.translation = { 0.0f, 0.0f, -8.0f };
+	//vintageCar.transform.scale = { 0.5f, 0.5f, 0.5f };
+	//application.gameObjects.emplace(vintageCar.getId(), std::move(vintageCar));
 
 	/**************
 	Creating Mesh
