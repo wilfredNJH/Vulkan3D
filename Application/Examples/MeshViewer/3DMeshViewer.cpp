@@ -54,7 +54,13 @@ namespace nekographics {
 		//adding in the textures to the descriptor sets 
 		for (int i = 1; i < m_vktexture.textureImageVec.size() + 1; ++i) {
 			tmpBuilder.addBinding(i, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_ALL_GRAPHICS);
+
+			// for the depth 
+			if (i == m_vktexture.textureImageVec.size()) {
+				tmpBuilder.addBinding(i + 1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_ALL_GRAPHICS);
+			}
 		}
+		
 		globalSetLayout = tmpBuilder.build();//building the set layout 
 
 		/**************
@@ -71,6 +77,16 @@ namespace nekographics {
 				imageInfo.imageView = m_vktexture.textureImageViewVec[j];
 				imageInfo.sampler = m_vktexture.textureSamplerVec[j];
 				imageInfoVec.emplace_back(imageInfo);
+
+				// setting the depth image info 
+				if (j == m_vktexture.textureImageViewVec.size()-1) {
+					VkDescriptorImageInfo depthImageInfo{};
+					int depthIndex = 0;
+					depthImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+					depthImageInfo.imageView = m_vkRenderer.getDepthView(depthIndex);
+					depthImageInfo.sampler = m_vkRenderer.getDepthSampler(depthIndex);
+					imageInfoVec.emplace_back(depthImageInfo);
+				}
 			}
 
 			//setting the buffer info 

@@ -45,10 +45,10 @@ int meshViewer() {
 	application.loadTextures("Textures/dds/TD_Checker_Roughness.dds");			//loading texture : Roughness
 
 	//for the vintage car 
-	application.loadTextures("Textures/dds/_Normal_DirectX.dds");				//loading texture : Normal Map
-	application.loadTextures("Textures/dds/_Base_Color.dds");					//loading texture : Diffuse 
-	application.loadTextures("Textures/dds/_Mixed_AO.dds");						//loading texture : Ambient Occlusion
-	application.loadTextures("Textures/dds/_Roughness.dds");					//loading texture : Roughness
+	//application.loadTextures("Textures/dds/_Normal_DirectX.dds");				//loading texture : Normal Map
+	//application.loadTextures("Textures/dds/_Base_Color.dds");					//loading texture : Diffuse 
+	//application.loadTextures("Textures/dds/_Mixed_AO.dds");						//loading texture : Ambient Occlusion
+	//application.loadTextures("Textures/dds/_Roughness.dds");					//loading texture : Roughness
 
 	application.pipelineLayout();//setting up the pipeline 
 

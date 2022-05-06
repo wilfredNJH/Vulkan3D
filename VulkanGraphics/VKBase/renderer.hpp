@@ -39,6 +39,18 @@ namespace nekographics {
         void beginSwapChainRenderPass(VkCommandBuffer commandBuffer);
         void endSwapChainRenderPass(VkCommandBuffer commandBuffer);
 
+        VkImage getDepthImage(int& index) const{ 
+            return m_RendererSwapchain->getDepthImages(index);
+        }
+
+        VkImageView getDepthView(int& index) const {
+            return m_RendererSwapchain->getDepthImageView(index);
+        }
+
+        VkSampler getDepthSampler(int& index) const {
+            return m_RendererSwapchain->getDepthSampler(index);
+        }
+
     private:
         void createCommandBuffers();
         void freeCommandBuffers();

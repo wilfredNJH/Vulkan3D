@@ -51,6 +51,19 @@ namespace nekographics {
                 pswapChain.swapChainImageFormat == swapChainImageFormat;
         }
 
+        VkImage getDepthImages(int& index) const{
+            return depthImages[index];
+        }
+
+        VkSampler getDepthSampler(int& index)const {
+            return depthSampler[index];
+        }
+
+        VkImageView getDepthImageView(int& index)const {
+            return depthImageViews[index];
+        }
+
+
     private:
         void init();
         void createSwapChain();
@@ -78,6 +91,7 @@ namespace nekographics {
         std::vector<VkSampler> depthSampler;
         std::vector<VkDeviceMemory> depthImageMemorys;
         std::vector<VkImageView> depthImageViews;
+
         std::vector<VkImage> swapChainImages;
         std::vector<VkImageView> swapChainImageViews;
 
