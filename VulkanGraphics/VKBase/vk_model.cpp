@@ -14,6 +14,7 @@
 #include <cassert>
 #include <cstring>
 #include <unordered_map>
+#include <array>
 
 namespace std {
     template <>
