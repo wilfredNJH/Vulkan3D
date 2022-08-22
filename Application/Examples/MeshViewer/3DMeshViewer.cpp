@@ -125,6 +125,13 @@ namespace nekographics {
 		initInfo.CheckVkResultFn = nullptr;
 
 		imguiHelper::initIMGUI(initInfo, m_vkRenderer.getSwapChainRenderPass(), m_window.wHandle);
+
+		// creating the font 
+		//if (VkCommandBuffer FCB{ m_vkDevice.beginSingleTimeCommands() }; FCB != nullptr)
+		//{
+		//	imguiHelper::createFont(FCB);
+		//	m_vkDevice.endSingleTimeCommands(FCB);
+		//}
 	}
 
 	/***********

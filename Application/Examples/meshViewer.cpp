@@ -158,6 +158,9 @@ int meshViewer() {
 			************/
 			if (application.m_window.mCanRender && !application.m_window.isMinimised()) {
 				if (auto commandBuffer = application.m_vkRenderer.beginFrame()) {
+
+					imguiHelper::Update(); // imgui update 
+
 					int frameIndex = application.m_vkRenderer.getFrameIndex();
 					nekographics::FrameInfo frameInfo{
 					  frameIndex,
@@ -179,6 +182,7 @@ int meshViewer() {
 					application.uboBuffers[frameIndex]->flush();
 
 					application.draw(camera, simpleRenderSystem,pointLightSystem,frameInfo,commandBuffer);//draw call
+					imguiHelper::Draw(commandBuffer); // imgui draw 
 				}
 			}
 			else {
