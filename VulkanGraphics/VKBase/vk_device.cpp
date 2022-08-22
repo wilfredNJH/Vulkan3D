@@ -197,6 +197,9 @@ namespace nekographics {
 
         vkGetDeviceQueue(device_, indices.graphicsFamily, 0, &graphicsQueue_);
         vkGetDeviceQueue(device_, indices.presentFamily, 0, &presentQueue_);
+
+        // setting queue family number 
+        m_QueueCount = indices.graphicsFamily;
     }
 
     void NKDevice::createCommandPool() {

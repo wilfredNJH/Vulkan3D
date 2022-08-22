@@ -22,6 +22,7 @@
 #include "vk_descriptors.hpp"
 #include "WindowManager.h"
 #include "Examples/MeshViewer/3DMeshViewer.hpp"
+#include <ImguiHelper.hpp>
 
 //std
 #include <iostream>
@@ -187,6 +188,8 @@ int meshViewer() {
 	}
 
 	vkDeviceWaitIdle(application.m_vkDevice.device());//idle device to make sure gpu properly shut down 
+
+	imguiHelper::ShutDown();
 
 	return 0;
 }

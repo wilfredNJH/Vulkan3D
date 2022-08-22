@@ -37,11 +37,14 @@ namespace nekographics {
         NKDevice& operator=(NKDevice&&) = delete;
 
         VkCommandPool getCommandPool() { return commandPool; }
+        VkInstance getInstance() { return instance; }
         VkDevice device() { return device_; }
         VkPhysicalDevice getPhysicalDevice() { return physicalDevice; }
         VkSurfaceKHR surface() { return surface_; }
         VkQueue graphicsQueue() { return graphicsQueue_; }
         VkQueue presentQueue() { return presentQueue_; }
+        uint32_t GetQueueCount() { return m_QueueCount; }
+        VkPipelineCache GetPipelineCache() { return m_PipelineCache;  }
 
         SwapChainSupportDetails getSwapChainSupport() { return querySwapChainSupport(physicalDevice); }
         uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
@@ -69,6 +72,7 @@ namespace nekographics {
             VkDeviceMemory& imageMemory);
 
         VkPhysicalDeviceProperties properties;
+        VkAllocationCallbacks* m_Allocator = NULL;
 
     private:
         void createInstance();
@@ -99,6 +103,9 @@ namespace nekographics {
         VkQueue graphicsQueue_;
         VkQueue presentQueue_;
 
+        uint32_t m_QueueCount; 
+
+        VkPipelineCache m_PipelineCache = VK_NULL_HANDLE;
 
         //toggle to enable render doc & validation layer 
         bool enableRenderDoc = true;

@@ -12,6 +12,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dependencies\glm\detail\glm.cpp" />
+    <ClCompile Include="Dependencies\imgui\src\imgui.cpp" />
+    <ClCompile Include="Dependencies\imgui\src\imguiHelper.cpp" />
+    <ClCompile Include="Dependencies\imgui\src\imgui_demo.cpp" />
+    <ClCompile Include="Dependencies\imgui\src\imgui_draw.cpp" />
+    <ClCompile Include="Dependencies\imgui\src\imgui_impl_vulkan.cpp" />
+    <ClCompile Include="Dependencies\imgui\src\imgui_impl_win32.cpp" />
+    <ClCompile Include="Dependencies\imgui\src\imgui_tables.cpp" />
+    <ClCompile Include="Dependencies\imgui\src\imgui_widgets.cpp" />
+    <ClCompile Include="Editor\ImguiHelper.cpp" />
     <ClCompile Include="Examples\meshViewer.cpp" />
     <ClCompile Include="Examples\MeshViewer\3DMeshViewer.cpp" />
     <ClCompile Include="main.cpp" />
@@ -302,6 +311,16 @@
     <ClInclude Include="Dependencies\glm\vec3.hpp" />
     <ClInclude Include="Dependencies\glm\vec4.hpp" />
     <ClInclude Include="Dependencies\glm\vector_relational.hpp" />
+    <ClInclude Include="Dependencies\imgui\include\imconfig.h" />
+    <ClInclude Include="Dependencies\imgui\include\imgui.h" />
+    <ClInclude Include="Dependencies\imgui\include\imguiHelper.h" />
+    <ClInclude Include="Dependencies\imgui\include\imgui_impl_vulkan.h" />
+    <ClInclude Include="Dependencies\imgui\include\imgui_impl_win32.h" />
+    <ClInclude Include="Dependencies\imgui\include\imgui_internal.h" />
+    <ClInclude Include="Dependencies\imgui\include\imstb_rectpack.h" />
+    <ClInclude Include="Dependencies\imgui\include\imstb_textedit.h" />
+    <ClInclude Include="Dependencies\imgui\include\imstb_truetype.h" />
+    <ClInclude Include="Editor\ImguiHelper.hpp" />
     <ClInclude Include="Examples\examples.h" />
     <ClInclude Include="Examples\MeshViewer\3DMeshViewer.hpp" />
     <ClInclude Include="Meshes\xprim_geom.h" />
@@ -498,13 +517,13 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)BUILD\Debug\</OutDir>
     <IntDir>$(SolutionDir)BUILD\Debug\obj\Debug\App\</IntDir>
-    <IncludePath>$(SolutionDir)VulkanGraphics/VKBase;$(SolutionDir)VulkanGraphics;$(SolutionDir)Application;$(SolutionDir)Application/Systems;$(SolutionDir)VulkanGraphics/System;$(SolutionDir)Application/Dependencies/libs;$(SolutionDir)Application/Dependencies;$(SolutionDir)VulkanGraphics/Tools;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)VulkanGraphics/VKBase;$(SolutionDir)VulkanGraphics;$(SolutionDir)Application;$(SolutionDir)Application/Systems;$(SolutionDir)VulkanGraphics/System;$(SolutionDir)Application/Dependencies/libs;$(SolutionDir)Application/Dependencies/imgui/include;$(SolutionDir)Application/Editor;$(SolutionDir)Application/Dependencies;$(SolutionDir)VulkanGraphics/Tools;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Application\Dependencies\libs;$(SolutionDir)BUILD\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>$(SolutionDir)BUILD\Release;$(LibraryPath);$(SolutionDir)Application\Dependencies\libs</LibraryPath>
-    <IncludePath>$(SolutionDir)VulkanGraphics/VKBase;$(SolutionDir)VulkanGraphics;$(SolutionDir)Application;$(SolutionDir)Application/Systems;$(SolutionDir)VulkanGraphics/System;$(SolutionDir)Application/Dependencies/libs;$(SolutionDir)Application/Dependencies;$(SolutionDir)VulkanGraphics/Tools;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)VulkanGraphics/VKBase;$(SolutionDir)VulkanGraphics;$(SolutionDir)Application;$(SolutionDir)Application/Systems;$(SolutionDir)VulkanGraphics/System;$(SolutionDir)Application/Dependencies/libs;$(SolutionDir)Application/Dependencies/imgui/include;$(SolutionDir)Application/Editor;$(SolutionDir)Application/Dependencies;$(SolutionDir)VulkanGraphics/Tools;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)BUILD\Release\</OutDir>
     <IntDir>$(SolutionDir)BUILD\Release\obj\Release\App\</IntDir>
   </PropertyGroup>

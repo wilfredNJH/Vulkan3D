@@ -86,6 +86,14 @@ namespace nekographics {
 
         void resetPool();
 
+        // getters 
+        NKDevice& GetPoolDevice() {
+            return m_PoolDevice;
+        }
+
+        VkDescriptorPool GetDescriptorPool() {
+            return descriptorPool;
+        }
     private:
         NKDevice& m_PoolDevice;
         VkDescriptorPool descriptorPool;

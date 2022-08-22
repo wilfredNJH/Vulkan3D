@@ -14,6 +14,7 @@
 //includes
 #include "3DMeshViewer.hpp"
 #include "controller.hpp"
+#include <ImguiHelper.hpp>
 
 // libs
 #define GLM_FORCE_RADIANS
@@ -105,6 +106,25 @@ namespace nekographics {
 			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, NKSwapChain::MAX_FRAMES_IN_FLIGHT)
 			.build();
 
+		/**************
+		Init IMGUI
+		**************/
+		ImGui_ImplVulkan_InitInfo initInfo{};
+		initInfo.Instance = m_vkDevice.getInstance();
+		initInfo.PhysicalDevice = m_vkDevice.getPhysicalDevice();
+		initInfo.Device = m_vkDevice.device();
+		initInfo.QueueFamily = m_vkDevice.GetQueueCount();
+		initInfo.Queue = m_vkDevice.graphicsQueue();
+		initInfo.PipelineCache = m_vkDevice.GetPipelineCache();
+		initInfo.DescriptorPool = globalPool.get()->GetDescriptorPool();
+		initInfo.Subpass = 0;
+		initInfo.MinImageCount = 2;
+		initInfo.ImageCount = 2;
+		initInfo.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
+		initInfo.Allocator = m_vkDevice.m_Allocator;
+		initInfo.CheckVkResultFn = nullptr;
+
+		imguiHelper::initIMGUI(initInfo, m_vkRenderer.getSwapChainRenderPass(), m_window.wHandle);
 	}
 
 	/***********
